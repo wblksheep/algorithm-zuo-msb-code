@@ -1,4 +1,4 @@
-package class18;
+package 第02期.mca_01;
 
 // 牛客的测试链接：
 // https://www.nowcoder.com/questionTerminal/8ecfe02124674e908b2aae65aad4efdf
@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_CherryPickup {
+public class Code01_CherryPickup {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

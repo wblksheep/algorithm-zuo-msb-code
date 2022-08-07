@@ -1,4 +1,4 @@
-package class18;
+package 第02期.mca_01;
 
 // 牛客的测试链接：
 // https://www.nowcoder.com/practice/7201cacf73e7495aa5f88b223bbbf6d1
@@ -16,7 +16,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
-public class Code04_TopKSumCrossTwoArrays {
+public class Code02_TopKSumCrossTwoArrays {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
