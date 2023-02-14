@@ -2,7 +2,7 @@ package 第03期.mca_01;
 
 import java.util.PriorityQueue;
 
-public class Code08_LessMoneySplitGold {
+public class Code09_LessMoneySplitGold {
 
 	// 纯暴力！
 	public static int lessMoney1(int[] arr) {
