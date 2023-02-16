@@ -1,6 +1,6 @@
 package 第03期.mca_02;
 
-public class Code07_FindFirstIntersectNode {
+public class Code04_FindFirstIntersectNode {
 
 	public static class Node {
 		public int value;

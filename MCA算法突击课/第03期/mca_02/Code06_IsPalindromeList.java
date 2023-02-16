@@ -2,7 +2,7 @@ package 第03期.mca_02;
 
 import java.util.Stack;
 
-public class Code02_IsPalindromeList {
+public class Code06_IsPalindromeList {
 
 	public static class Node {
 		public int value;
