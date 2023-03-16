@@ -1,4 +1,4 @@
-package 第03期.mca_05;
+package 第03期.mca_06;
 
 // n对情侣坐在连续排列的 2n 个座位上，想要牵到对方的手
 // 人和座位由一个整数数组 row 表示，其中 row[i] 是坐在第 i 个座位上的人的ID
@@ -6,7 +6,7 @@ package 第03期.mca_05;
 // 返回 最少交换座位的次数，以便每对情侣可以并肩坐在一起
 // 每次交换可选择任意两人，让他们站起来交换座位
 // 测试链接 : https://leetcode.cn/problems/couples-holding-hands/
-public class Code07_CouplesHoldingHands {
+public class Code03_CouplesHoldingHands {
 
 	public int minSwapsCouples(int[] row) {
 		int n = row.length;
