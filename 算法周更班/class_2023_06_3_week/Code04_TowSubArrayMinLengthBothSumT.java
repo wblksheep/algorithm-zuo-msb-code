@@ -15,7 +15,7 @@ import java.util.HashMap;
 // 2 <= n <= 10^6
 // -10000 <= arr[i] <= 10000
 // 1 <= T <= 10^8
-// 都能时间复杂度，做到O(N)
+// 都能时间复杂度做到O(N)
 
 public class Code04_TowSubArrayMinLengthBothSumT {
 
