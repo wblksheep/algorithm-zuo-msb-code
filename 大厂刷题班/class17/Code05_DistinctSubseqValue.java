@@ -32,18 +32,17 @@ public class Code05_DistinctSubseqValue {
         int all = 1; // 一个字符也没遍历的时候，有空集
         for (char x : str) {
             int newAdd = all;
-//			int curAll = all + newAdd - (map.containsKey(x) ? map.get(x) : 0);
             int curAll = all;
             curAll = (curAll + newAdd) % m;
-            curAll = (curAll - (map.containsKey(x) ? map.get(x) : 0) + m) % m;
+            curAll = (curAll - map.getOrDefault(x, 0) + m) % m;
             all = curAll;
             map.put(x, newAdd);
         }
-        return all;
+        return (all - 1 + m) % m;
     }
 
     public static void main(String[] args) {
-        String s = "bccaccbaabbc";
+        String s = "yezruvnatuipjeohsymapyxgfeczkevoxipckunlqjauvllfpwezhlzpbkfqazhexabomnlxkmoufneninbxxguuktvupmpfspwxiouwlfalexmluwcsbeqrzkivrphtpcoxqsueuxsalopbsgkzaibkpfmsztkwommkvgjjdvvggnvtlwrllcafhfocprnrzfoyehqhrvhpbbpxpsvomdpmksojckgkgkycoynbldkbnrlujegxotgmeyknpmpgajbgwmfftuphfzrywarqkpkfnwtzgdkdcyvwkqawwyjuskpvqomfchnlojmeltlwvqomucipcwxkgsktjxpwhujaexhejeflpctmjpuguslmzvpykbldcbxqnwgycpfccgeychkxfopixijeypzyryglutxweffyrqtkfrqlhtjweodttchnugybsmacpgperznunffrdavyqgilqlplebbkdopyyxcoamfxhpmdyrtutfxsejkwiyvdwggyhgsdpfxpznrccwdupfzlubkhppmasdbqfzttbhfismeamenyukzqoupbzxashwuvfkmkosgevcjnlpfgxgzumktsexvwhylhiupwfwyxotwnxodttsrifgzkkedurayjgxlhxjzlxikcgerptpufocymfrkyayvklsalgmtifpiczwnozmgowzchjiop";
         System.out.println(distinctSubseqII(s) + 1);
         System.out.println(zuo(s));
     }
