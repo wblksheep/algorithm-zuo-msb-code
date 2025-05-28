@@ -64,8 +64,7 @@ public class Code02_ShortestBridge {
     // all 总 all = N * M
     // V 要生成的是第几层 curs V-1 nexts V
     // record里面拿距离
-    public static int bfs(int N, int M, int all, int V,
-                          int[] curs, int size, int[] nexts, int[] record) {
+    public static int bfs(int N, int M, int all, int V, int[] curs, int size, int[] nexts, int[] record) {
         int nexti = 0; // 我要生成的下一层队列成长到哪了？
         for (int i = 0; i < size; i++) {
             // curs[i] -> 一个位置
