@@ -92,4 +92,8 @@ public class Code02_ShortestBridge {
         return nexti;
     }
 
+    public static void main(String[] args) {
+        int[][] m = {{1, 1, 0, 0, 0}, {0, 0, 0, 0, 1}, {0, 0, 1, 1, 1}, {0, 0, 0, 0, 1}};
+        System.out.println(shortestBridge(m));
+    }
 }
