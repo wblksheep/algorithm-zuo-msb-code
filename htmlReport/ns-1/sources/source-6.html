@@ -1,0 +1,267 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Code03_StickersToSpellWord</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">class19</a>
+</div>
+
+<h1>Coverage Summary for Class: Code03_StickersToSpellWord (class19)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Code03_StickersToSpellWord</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/64)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/84)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package class19;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;// 本题测试链接：https://leetcode.com/problems/stickers-to-spell-word
+<b class="nc">&nbsp;public class Code03_StickersToSpellWord {</b>
+&nbsp;
+&nbsp;	public static int minStickers1(String[] stickers, String target) {
+<b class="nc">&nbsp;		int ans = process1(stickers, target);</b>
+<b class="nc">&nbsp;		return ans == Integer.MAX_VALUE ? -1 : ans;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	// 所有贴纸stickers，每一种贴纸都有无穷张
+&nbsp;	// target
+&nbsp;	// 最少张数
+&nbsp;	public static int process1(String[] stickers, String target) {
+<b class="nc">&nbsp;		if (target.length() == 0) {</b>
+<b class="nc">&nbsp;			return 0;</b>
+&nbsp;		}
+<b class="nc">&nbsp;		int min = Integer.MAX_VALUE;</b>
+<b class="nc">&nbsp;		for (String first : stickers) {</b>
+<b class="nc">&nbsp;			String rest = minus(target, first);</b>
+<b class="nc">&nbsp;			if (rest.length() != target.length()) {</b>
+<b class="nc">&nbsp;				min = Math.min(min, process1(stickers, rest));</b>
+&nbsp;			}
+&nbsp;		}
+<b class="nc">&nbsp;		return min + (min == Integer.MAX_VALUE ? 0 : 1);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public static String minus(String s1, String s2) {
+<b class="nc">&nbsp;		char[] str1 = s1.toCharArray();</b>
+<b class="nc">&nbsp;		char[] str2 = s2.toCharArray();</b>
+<b class="nc">&nbsp;		int[] count = new int[26];</b>
+<b class="nc">&nbsp;		for (char cha : str1) {</b>
+<b class="nc">&nbsp;			count[cha - &#39;a&#39;]++;</b>
+&nbsp;		}
+<b class="nc">&nbsp;		for (char cha : str2) {</b>
+<b class="nc">&nbsp;			count[cha - &#39;a&#39;]--;</b>
+&nbsp;		}
+<b class="nc">&nbsp;		StringBuilder builder = new StringBuilder();</b>
+<b class="nc">&nbsp;		for (int i = 0; i &lt; 26; i++) {</b>
+<b class="nc">&nbsp;			if (count[i] &gt; 0) {</b>
+<b class="nc">&nbsp;				for (int j = 0; j &lt; count[i]; j++) {</b>
+<b class="nc">&nbsp;					builder.append((char) (i + &#39;a&#39;));</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+<b class="nc">&nbsp;		return builder.toString();</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public static int minStickers2(String[] stickers, String target) {
+<b class="nc">&nbsp;		int N = stickers.length;</b>
+&nbsp;		// 关键优化(用词频表替代贴纸数组)
+<b class="nc">&nbsp;		int[][] counts = new int[N][26];</b>
+<b class="nc">&nbsp;		for (int i = 0; i &lt; N; i++) {</b>
+<b class="nc">&nbsp;			char[] str = stickers[i].toCharArray();</b>
+<b class="nc">&nbsp;			for (char cha : str) {</b>
+<b class="nc">&nbsp;				counts[i][cha - &#39;a&#39;]++;</b>
+&nbsp;			}
+&nbsp;		}
+<b class="nc">&nbsp;		int ans = process2(counts, target);</b>
+<b class="nc">&nbsp;		return ans == Integer.MAX_VALUE ? -1 : ans;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	// stickers[i] 数组，当初i号贴纸的字符统计 int[][] stickers -&gt; 所有的贴纸
+&nbsp;	// 每一种贴纸都有无穷张
+&nbsp;	// 返回搞定target的最少张数
+&nbsp;	// 最少张数
+&nbsp;	public static int process2(int[][] stickers, String t) {
+<b class="nc">&nbsp;		if (t.length() == 0) {</b>
+<b class="nc">&nbsp;			return 0;</b>
+&nbsp;		}
+&nbsp;		// target做出词频统计
+&nbsp;		// target  aabbc  2 2 1..
+&nbsp;		//                0 1 2..
+<b class="nc">&nbsp;		char[] target = t.toCharArray();</b>
+<b class="nc">&nbsp;		int[] tcounts = new int[26];</b>
+<b class="nc">&nbsp;		for (char cha : target) {</b>
+<b class="nc">&nbsp;			tcounts[cha - &#39;a&#39;]++;</b>
+&nbsp;		}
+<b class="nc">&nbsp;		int N = stickers.length;</b>
+<b class="nc">&nbsp;		int min = Integer.MAX_VALUE;</b>
+<b class="nc">&nbsp;		for (int i = 0; i &lt; N; i++) {</b>
+&nbsp;			// 尝试第一张贴纸是谁
+<b class="nc">&nbsp;			int[] sticker = stickers[i];</b>
+&nbsp;			// 最关键的优化(重要的剪枝!这一步也是贪心!)
+<b class="nc">&nbsp;			if (sticker[target[0] - &#39;a&#39;] &gt; 0) {</b>
+<b class="nc">&nbsp;				StringBuilder builder = new StringBuilder();</b>
+<b class="nc">&nbsp;				for (int j = 0; j &lt; 26; j++) {</b>
+<b class="nc">&nbsp;					if (tcounts[j] &gt; 0) {</b>
+<b class="nc">&nbsp;						int nums = tcounts[j] - sticker[j];</b>
+<b class="nc">&nbsp;						for (int k = 0; k &lt; nums; k++) {</b>
+<b class="nc">&nbsp;							builder.append((char) (j + &#39;a&#39;));</b>
+&nbsp;						}
+&nbsp;					}
+&nbsp;				}
+<b class="nc">&nbsp;				String rest = builder.toString();</b>
+<b class="nc">&nbsp;				min = Math.min(min, process2(stickers, rest));</b>
+&nbsp;			}
+&nbsp;		}
+<b class="nc">&nbsp;		return min + (min == Integer.MAX_VALUE ? 0 : 1);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public static int minStickers3(String[] stickers, String target) {
+<b class="nc">&nbsp;		int N = stickers.length;</b>
+<b class="nc">&nbsp;		int[][] counts = new int[N][26];</b>
+<b class="nc">&nbsp;		for (int i = 0; i &lt; N; i++) {</b>
+<b class="nc">&nbsp;			char[] str = stickers[i].toCharArray();</b>
+<b class="nc">&nbsp;			for (char cha : str) {</b>
+<b class="nc">&nbsp;				counts[i][cha - &#39;a&#39;]++;</b>
+&nbsp;			}
+&nbsp;		}
+<b class="nc">&nbsp;		HashMap&lt;String, Integer&gt; dp = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;		dp.put(&quot;&quot;, 0);</b>
+<b class="nc">&nbsp;		int ans = process3(counts, target, dp);</b>
+<b class="nc">&nbsp;		return ans == Integer.MAX_VALUE ? -1 : ans;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public static int process3(int[][] stickers, String t, HashMap&lt;String, Integer&gt; dp) {
+<b class="nc">&nbsp;		if (dp.containsKey(t)) {</b>
+<b class="nc">&nbsp;			return dp.get(t);</b>
+&nbsp;		}
+<b class="nc">&nbsp;		char[] target = t.toCharArray();</b>
+<b class="nc">&nbsp;		int[] tcounts = new int[26];</b>
+<b class="nc">&nbsp;		for (char cha : target) {</b>
+<b class="nc">&nbsp;			tcounts[cha - &#39;a&#39;]++;</b>
+&nbsp;		}
+<b class="nc">&nbsp;		int N = stickers.length;</b>
+<b class="nc">&nbsp;		int min = Integer.MAX_VALUE;</b>
+<b class="nc">&nbsp;		for (int i = 0; i &lt; N; i++) {</b>
+<b class="nc">&nbsp;			int[] sticker = stickers[i];</b>
+<b class="nc">&nbsp;			if (sticker[target[0] - &#39;a&#39;] &gt; 0) {</b>
+<b class="nc">&nbsp;				StringBuilder builder = new StringBuilder();</b>
+<b class="nc">&nbsp;				for (int j = 0; j &lt; 26; j++) {</b>
+<b class="nc">&nbsp;					if (tcounts[j] &gt; 0) {</b>
+<b class="nc">&nbsp;						int nums = tcounts[j] - sticker[j];</b>
+<b class="nc">&nbsp;						for (int k = 0; k &lt; nums; k++) {</b>
+<b class="nc">&nbsp;							builder.append((char) (j + &#39;a&#39;));</b>
+&nbsp;						}
+&nbsp;					}
+&nbsp;				}
+<b class="nc">&nbsp;				String rest = builder.toString();</b>
+<b class="nc">&nbsp;				min = Math.min(min, process3(stickers, rest, dp));</b>
+&nbsp;			}
+&nbsp;		}
+<b class="nc">&nbsp;		int ans = min + (min == Integer.MAX_VALUE ? 0 : 1);</b>
+<b class="nc">&nbsp;		dp.put(t, ans);</b>
+<b class="nc">&nbsp;		return ans;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-31 20:05</div>
+</div>
+</body>
+</html>

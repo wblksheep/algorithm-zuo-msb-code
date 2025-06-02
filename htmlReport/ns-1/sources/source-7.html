@@ -1,0 +1,240 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Code04_LongestCommonSubsequence</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">class19</a>
+</div>
+
+<h1>Coverage Summary for Class: Code04_LongestCommonSubsequence (class19)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Code04_LongestCommonSubsequence</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/48)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package class19;
+&nbsp;
+&nbsp;// 这个问题leetcode上可以直接测
+&nbsp;// 链接：https://leetcode.com/problems/longest-common-subsequence/
+<b class="nc">&nbsp;public class Code04_LongestCommonSubsequence {</b>
+&nbsp;
+&nbsp;	public static int longestCommonSubsequence1(String s1, String s2) {
+<b class="nc">&nbsp;		if (s1 == null || s2 == null || s1.length() == 0 || s2.length() == 0) {</b>
+<b class="nc">&nbsp;			return 0;</b>
+&nbsp;		}
+<b class="nc">&nbsp;		char[] str1 = s1.toCharArray();</b>
+<b class="nc">&nbsp;		char[] str2 = s2.toCharArray();</b>
+&nbsp;		// 尝试
+<b class="nc">&nbsp;		return process1(str1, str2, str1.length - 1, str2.length - 1);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	// str1[0...i]和str2[0...j]，这个范围上最长公共子序列长度是多少？
+&nbsp;	// 可能性分类:
+&nbsp;	// a) 最长公共子序列，一定不以str1[i]字符结尾、也一定不以str2[j]字符结尾
+&nbsp;	// b) 最长公共子序列，可能以str1[i]字符结尾、但是一定不以str2[j]字符结尾
+&nbsp;	// c) 最长公共子序列，一定不以str1[i]字符结尾、但是可能以str2[j]字符结尾
+&nbsp;	// d) 最长公共子序列，必须以str1[i]字符结尾、也必须以str2[j]字符结尾
+&nbsp;	// 注意：a)、b)、c)、d)并不是完全互斥的，他们可能会有重叠的情况
+&nbsp;	// 但是可以肯定，答案不会超过这四种可能性的范围
+&nbsp;	// 那么我们分别来看一下，这几种可能性怎么调用后续的递归。
+&nbsp;	// a) 最长公共子序列，一定不以str1[i]字符结尾、也一定不以str2[j]字符结尾
+&nbsp;	//    如果是这种情况，那么有没有str1[i]和str2[j]就根本不重要了，因为这两个字符一定没用啊
+&nbsp;	//    所以砍掉这两个字符，最长公共子序列 = str1[0...i-1]与str2[0...j-1]的最长公共子序列长度(后续递归)
+&nbsp;	// b) 最长公共子序列，可能以str1[i]字符结尾、但是一定不以str2[j]字符结尾
+&nbsp;	//    如果是这种情况，那么我们可以确定str2[j]一定没有用，要砍掉；但是str1[i]可能有用，所以要保留
+&nbsp;	//    所以，最长公共子序列 = str1[0...i]与str2[0...j-1]的最长公共子序列长度(后续递归)
+&nbsp;	// c) 最长公共子序列，一定不以str1[i]字符结尾、但是可能以str2[j]字符结尾
+&nbsp;	//    跟上面分析过程类似，最长公共子序列 = str1[0...i-1]与str2[0...j]的最长公共子序列长度(后续递归)
+&nbsp;	// d) 最长公共子序列，必须以str1[i]字符结尾、也必须以str2[j]字符结尾
+&nbsp;	//    同时可以看到，可能性d)存在的条件，一定是在str1[i] == str2[j]的情况下，才成立的
+&nbsp;    //    所以，最长公共子序列总长度 = str1[0...i-1]与str2[0...j-1]的最长公共子序列长度(后续递归) + 1(共同的结尾)
+&nbsp;	// 综上，四种情况已经穷尽了所有可能性。四种情况中取最大即可
+&nbsp;	// 其中b)、c)一定参与最大值的比较，
+&nbsp;	// 当str1[i] == str2[j]时，a)一定比d)小，所以d)参与
+&nbsp;	// 当str1[i] != str2[j]时，d)压根不存在，所以a)参与
+&nbsp;	// 但是再次注意了！
+&nbsp;	// a)是：str1[0...i-1]与str2[0...j-1]的最长公共子序列长度
+&nbsp;	// b)是：str1[0...i]与str2[0...j-1]的最长公共子序列长度
+&nbsp;	// c)是：str1[0...i-1]与str2[0...j]的最长公共子序列长度
+&nbsp;	// a)中str1的范围 &lt; b)中str1的范围，a)中str2的范围 == b)中str2的范围
+&nbsp;	// 所以a)不用求也知道，它比不过b)啊，因为有一个样本的范围比b)小啊！
+&nbsp;	// a)中str1的范围 == c)中str1的范围，a)中str2的范围 &lt; c)中str2的范围
+&nbsp;	// 所以a)不用求也知道，它比不过c)啊，因为有一个样本的范围比c)小啊！
+&nbsp;	// 至此，可以知道，a)就是个垃圾，有它没它，都不影响最大值的决策
+&nbsp;	// 所以，当str1[i] == str2[j]时，b)、c)、d)中选出最大值
+&nbsp;	// 当str1[i] != str2[j]时，b)、c)中选出最大值
+&nbsp;	public static int process1(char[] str1, char[] str2, int i, int j) {
+<b class="nc">&nbsp;		if (i == 0 &amp;&amp; j == 0) {</b>
+&nbsp;			// str1[0..0]和str2[0..0]，都只剩一个字符了
+&nbsp;			// 那如果字符相等，公共子序列长度就是1，不相等就是0
+&nbsp;			// 这显而易见
+<b class="nc">&nbsp;			return str1[i] == str2[j] ? 1 : 0;</b>
+<b class="nc">&nbsp;		} else if (i == 0) {</b>
+&nbsp;			// 这里的情况为：
+&nbsp;			// str1[0...0]和str2[0...j]，str1只剩1个字符了，但是str2不只一个字符
+&nbsp;			// 因为str1只剩一个字符了，所以str1[0...0]和str2[0...j]公共子序列最多长度为1
+&nbsp;			// 如果str1[0] == str2[j]，那么此时相等已经找到了！公共子序列长度就是1，也不可能更大了
+&nbsp;			// 如果str1[0] != str2[j]，只是此时不相等而已，
+&nbsp;			// 那么str2[0...j-1]上有没有字符等于str1[0]呢？不知道，所以递归继续找
+<b class="nc">&nbsp;			if (str1[i] == str2[j]) {</b>
+<b class="nc">&nbsp;				return 1;</b>
+&nbsp;			} else {
+<b class="nc">&nbsp;				return process1(str1, str2, i, j - 1);</b>
+&nbsp;			}
+<b class="nc">&nbsp;		} else if (j == 0) {</b>
+&nbsp;			// 和上面的else if同理
+&nbsp;			// str1[0...i]和str2[0...0]，str2只剩1个字符了，但是str1不只一个字符
+&nbsp;			// 因为str2只剩一个字符了，所以str1[0...i]和str2[0...0]公共子序列最多长度为1
+&nbsp;			// 如果str1[i] == str2[0]，那么此时相等已经找到了！公共子序列长度就是1，也不可能更大了
+&nbsp;			// 如果str1[i] != str2[0]，只是此时不相等而已，
+&nbsp;			// 那么str1[0...i-1]上有没有字符等于str2[0]呢？不知道，所以递归继续找
+<b class="nc">&nbsp;			if (str1[i] == str2[j]) {</b>
+<b class="nc">&nbsp;				return 1;</b>
+&nbsp;			} else {
+<b class="nc">&nbsp;				return process1(str1, str2, i - 1, j);</b>
+&nbsp;			}
+&nbsp;		} else { // i != 0 &amp;&amp; j != 0
+&nbsp;			// 这里的情况为：
+&nbsp;			// str1[0...i]和str2[0...i]，str1和str2都不只一个字符
+&nbsp;			// 看函数开始之前的注释部分
+&nbsp;			// p1就是可能性c)
+<b class="nc">&nbsp;			int p1 = process1(str1, str2, i - 1, j);</b>
+&nbsp;			// p2就是可能性b)
+<b class="nc">&nbsp;			int p2 = process1(str1, str2, i, j - 1);</b>
+&nbsp;			// p3就是可能性d)，如果可能性d)存在，即str1[i] == str2[j]，那么p3就求出来，参与pk
+&nbsp;			// 如果可能性d)不存在，即str1[i] != str2[j]，那么让p3等于0，然后去参与pk，反正不影响
+<b class="nc">&nbsp;			int p3 = str1[i] == str2[j] ? (1 + process1(str1, str2, i - 1, j - 1)) : 0;</b>
+<b class="nc">&nbsp;			return Math.max(p1, Math.max(p2, p3));</b>
+&nbsp;		}
+&nbsp;	}
+&nbsp;
+&nbsp;	public static int longestCommonSubsequence2(String s1, String s2) {
+<b class="nc">&nbsp;		if (s1 == null || s2 == null || s1.length() == 0 || s2.length() == 0) {</b>
+<b class="nc">&nbsp;			return 0;</b>
+&nbsp;		}
+<b class="nc">&nbsp;		char[] str1 = s1.toCharArray();</b>
+<b class="nc">&nbsp;		char[] str2 = s2.toCharArray();</b>
+<b class="nc">&nbsp;		int N = str1.length;</b>
+<b class="nc">&nbsp;		int M = str2.length;</b>
+<b class="nc">&nbsp;		int[][] dp = new int[N][M];</b>
+<b class="nc">&nbsp;		dp[0][0] = str1[0] == str2[0] ? 1 : 0;</b>
+<b class="nc">&nbsp;		for (int j = 1; j &lt; M; j++) {</b>
+<b class="nc">&nbsp;			dp[0][j] = str1[0] == str2[j] ? 1 : dp[0][j - 1];</b>
+&nbsp;		}
+<b class="nc">&nbsp;		for (int i = 1; i &lt; N; i++) {</b>
+<b class="nc">&nbsp;			dp[i][0] = str1[i] == str2[0] ? 1 : dp[i - 1][0];</b>
+&nbsp;		}
+<b class="nc">&nbsp;		for (int i = 1; i &lt; N; i++) {</b>
+<b class="nc">&nbsp;			for (int j = 1; j &lt; M; j++) {</b>
+<b class="nc">&nbsp;				int p1 = dp[i - 1][j];</b>
+<b class="nc">&nbsp;				int p2 = dp[i][j - 1];</b>
+<b class="nc">&nbsp;				int p3 = str1[i] == str2[j] ? (1 + dp[i - 1][j - 1]) : 0;</b>
+<b class="nc">&nbsp;				dp[i][j] = Math.max(p1, Math.max(p2, p3));</b>
+&nbsp;			}
+&nbsp;		}
+<b class="nc">&nbsp;		return dp[N - 1][M - 1];</b>
+&nbsp;	}
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-31 20:05</div>
+</div>
+</body>
+</html>

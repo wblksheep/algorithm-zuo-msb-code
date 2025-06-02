@@ -1,0 +1,430 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Code02_LFUCache</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">class19</a>
+</div>
+
+<h1>Coverage Summary for Class: Code02_LFUCache (class19)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Code02_LFUCache</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85.3%
+  </span>
+  <span class="absValue">
+    (29/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.2%
+  </span>
+  <span class="absValue">
+    (112/114)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Code02_LFUCache$Node</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Code02_LFUCache$NodeList</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (16/20)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (35/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.7%
+  </span>
+  <span class="absValue">
+    (132/138)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package class19;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;public class Code02_LFUCache {
+&nbsp;
+&nbsp;    // 添加主函数进行测试
+&nbsp;    public static void main(String[] args) {
+<b class="fc">&nbsp;        System.out.println(&quot;===== Test Case 1: Basic Functionality =====&quot;);</b>
+<b class="fc">&nbsp;        Code02_LFUCache cache1 = new Code02_LFUCache(2);</b>
+<b class="fc">&nbsp;        cache1.put(1, 1);</b>
+<b class="fc">&nbsp;        cache1.put(2, 2);</b>
+<b class="fc">&nbsp;        System.out.println(cache1.get(1)); // 返回 1</b>
+<b class="fc">&nbsp;        System.out.println(cache1.get(2)); // 返回 2</b>
+<b class="fc">&nbsp;        System.out.println(cache1.get(3)); // 返回 -1 (未找到)</b>
+&nbsp;
+<b class="fc">&nbsp;        System.out.println(&quot;\n===== Test Case 2: Evict Least Frequently Used =====&quot;);</b>
+<b class="fc">&nbsp;        Code02_LFUCache cache2 = new Code02_LFUCache(2);</b>
+<b class="fc">&nbsp;        cache2.put(1, 1);</b>
+<b class="fc">&nbsp;        cache2.put(2, 2);</b>
+<b class="fc">&nbsp;        System.out.println(cache2.get(1)); // 返回 1 (增加key1的频率)</b>
+<b class="fc">&nbsp;        cache2.put(3, 3);                  // 淘汰key2 (频率最低)</b>
+<b class="fc">&nbsp;        System.out.println(cache2.get(2)); // 返回 -1 (已被淘汰)</b>
+<b class="fc">&nbsp;        System.out.println(cache2.get(1)); // 返回 1</b>
+<b class="fc">&nbsp;        System.out.println(cache2.get(3)); // 返回 3</b>
+&nbsp;
+<b class="fc">&nbsp;        System.out.println(&quot;\n===== Test Case 3: Evict Least Recently Used in Same Frequency =====&quot;);</b>
+<b class="fc">&nbsp;        Code02_LFUCache cache3 = new Code02_LFUCache(3);</b>
+<b class="fc">&nbsp;        cache3.put(1, 1);</b>
+<b class="fc">&nbsp;        cache3.put(2, 2);</b>
+<b class="fc">&nbsp;        cache3.put(3, 3);</b>
+&nbsp;        // 增加所有键的频率至2
+<b class="fc">&nbsp;        System.out.println(cache3.get(1)); // 返回 1</b>
+<b class="fc">&nbsp;        System.out.println(cache3.get(2)); // 返回 2</b>
+<b class="fc">&nbsp;        System.out.println(cache3.get(3)); // 返回 3</b>
+<b class="fc">&nbsp;        cache3.put(4, 4); // 应淘汰key1 (最久未使用)</b>
+<b class="fc">&nbsp;        System.out.println(cache3.get(1)); // 返回 -1</b>
+<b class="fc">&nbsp;        System.out.println(cache3.get(2)); // 返回 2</b>
+<b class="fc">&nbsp;        System.out.println(cache3.get(3)); // 返回 3</b>
+<b class="fc">&nbsp;        System.out.println(cache3.get(4)); // 返回 4</b>
+&nbsp;
+<b class="fc">&nbsp;        System.out.println(&quot;\n===== Test Case 4: Update Operation =====&quot;);</b>
+<b class="fc">&nbsp;        Code02_LFUCache cache4 = new Code02_LFUCache(2);</b>
+<b class="fc">&nbsp;        cache4.put(1, 1);</b>
+<b class="fc">&nbsp;        cache4.put(2, 2);</b>
+<b class="fc">&nbsp;        cache4.put(1, 10); // 更新key1的值并增加频率</b>
+<b class="fc">&nbsp;        cache4.put(3, 3);  // 淘汰key2 (频率较低)</b>
+<b class="fc">&nbsp;        System.out.println(cache4.get(1)); // 返回 10</b>
+<b class="fc">&nbsp;        System.out.println(cache4.get(2)); // 返回 -1</b>
+<b class="fc">&nbsp;        System.out.println(cache4.get(3)); // 返回 3</b>
+&nbsp;
+<b class="fc">&nbsp;        System.out.println(&quot;\n===== Test Case 5: Zero Capacity =====&quot;);</b>
+<b class="fc">&nbsp;        Code02_LFUCache cache5 = new Code02_LFUCache(0);</b>
+<b class="fc">&nbsp;        cache5.put(1, 1); // 无效操作</b>
+<b class="fc">&nbsp;        System.out.println(cache5.get(1)); // 返回 -1</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public Code02_LFUCache(int K) {</b>
+<b class="fc">&nbsp;        capacity = K;</b>
+<b class="fc">&nbsp;        size = 0;</b>
+<b class="fc">&nbsp;        records = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        heads = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        headList = null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private int capacity; // 缓存的大小限制，即K
+&nbsp;    private int size; // 缓存目前有多少个节点
+&nbsp;    private HashMap&lt;Integer, Node&gt; records;// 表示key(Integer)由哪个节点(Node)代表
+&nbsp;    private HashMap&lt;Node, NodeList&gt; heads; // 表示节点(Node)在哪个桶(NodeList)里
+&nbsp;    private NodeList headList; // 整个结构中位于最左的桶
+&nbsp;
+&nbsp;    // 节点的数据结构
+&nbsp;    public static class Node {
+&nbsp;        public Integer key;
+&nbsp;        public Integer value;
+&nbsp;        public Integer times; // 这个节点发生get或者set的次数总和
+&nbsp;        public Node up; // 节点之间是双向链表所以有上一个节点
+&nbsp;        public Node down;// 节点之间是双向链表所以有下一个节点
+&nbsp;
+<b class="fc">&nbsp;        public Node(int k, int v, int t) {</b>
+<b class="fc">&nbsp;            key = k;</b>
+<b class="fc">&nbsp;            value = v;</b>
+<b class="fc">&nbsp;            times = t;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // 桶结构
+&nbsp;    public static class NodeList {
+&nbsp;        public Node head; // 桶的头节点
+&nbsp;        public Node tail; // 桶的尾节点
+&nbsp;        public NodeList last; // 桶之间是双向链表所以有前一个桶
+&nbsp;        public NodeList next; // 桶之间是双向链表所以有后一个桶
+&nbsp;
+<b class="fc">&nbsp;        public NodeList(Node node) {</b>
+<b class="fc">&nbsp;            head = node;</b>
+<b class="fc">&nbsp;            tail = node;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // 把一个新的节点加入这个桶，新的节点都放在顶端变成新的头部
+&nbsp;        public void addNodeFromHead(Node newHead) {
+<b class="fc">&nbsp;            newHead.down = head;</b>
+<b class="fc">&nbsp;            head.up = newHead;</b>
+<b class="fc">&nbsp;            head = newHead;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // 判断这个桶是不是空的
+&nbsp;        public boolean isEmpty() {
+<b class="fc">&nbsp;            return head == null;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // 删除node节点并保证node的上下环境重新连接
+&nbsp;        public void deleteNode(Node node) {
+<b class="fc">&nbsp;            if (head == tail) {</b>
+<b class="fc">&nbsp;                head = null;</b>
+<b class="fc">&nbsp;                tail = null;</b>
+&nbsp;            } else {
+<b class="pc">&nbsp;                if (node == head) {</b>
+<b class="nc">&nbsp;                    head = node.down;</b>
+<b class="nc">&nbsp;                    head.up = null;</b>
+<b class="pc">&nbsp;                } else if (node == tail) {</b>
+<b class="fc">&nbsp;                    tail = node.up;</b>
+<b class="fc">&nbsp;                    tail.down = null;</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    node.up.down = node.down;</b>
+<b class="nc">&nbsp;                    node.down.up = node.up;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            node.up = null;</b>
+<b class="fc">&nbsp;            node.down = null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // removeNodeList：刚刚减少了一个节点的桶
+&nbsp;    // 这个函数的功能是，判断刚刚减少了一个节点的桶是不是已经空了。
+&nbsp;    // 1）如果不空，什么也不做
+&nbsp;    //
+&nbsp;    // 2)如果空了，removeNodeList还是整个缓存结构最左的桶(headList)。
+&nbsp;    // 删掉这个桶的同时也要让最左的桶变成removeNodeList的下一个。
+&nbsp;    //
+&nbsp;    // 3)如果空了，removeNodeList不是整个缓存结构最左的桶(headList)。
+&nbsp;    // 把这个桶删除，并保证上一个的桶和下一个桶之间还是双向链表的连接方式
+&nbsp;    //
+&nbsp;    // 函数的返回值表示刚刚减少了一个节点的桶是不是已经空了，空了返回true；不空返回false
+&nbsp;    private boolean modifyHeadList(NodeList removeNodeList) {
+<b class="fc">&nbsp;        if (removeNodeList.isEmpty()) {</b>
+<b class="fc">&nbsp;            if (headList == removeNodeList) {</b>
+<b class="fc">&nbsp;                headList = removeNodeList.next;</b>
+<b class="pc">&nbsp;                if (headList != null) {</b>
+<b class="fc">&nbsp;                    headList.last = null;</b>
+&nbsp;                }
+&nbsp;            } else {
+<b class="fc">&nbsp;                removeNodeList.last.next = removeNodeList.next;</b>
+<b class="fc">&nbsp;                if (removeNodeList.next != null) {</b>
+<b class="fc">&nbsp;                    removeNodeList.next.last = removeNodeList.last;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // 函数的功能
+&nbsp;    // node这个节点的次数+1了，这个节点原来在oldNodeList里。
+&nbsp;    // 把node从oldNodeList删掉，然后放到次数+1的桶中
+&nbsp;    // 整个过程既要保证桶之间仍然是双向链表，也要保证节点之间仍然是双向链表
+&nbsp;    private void move(Node node, NodeList oldNodeList) {
+<b class="fc">&nbsp;        oldNodeList.deleteNode(node);</b>
+&nbsp;        // preList表示次数+1的桶的前一个桶是谁
+&nbsp;        // 如果oldNodeList删掉node之后还有节点，oldNodeList就是次数+1的桶的前一个桶
+&nbsp;        // 如果oldNodeList删掉node之后空了，oldNodeList是需要删除的，所以次数+1的桶的前一个桶，是oldNodeList的前一个
+<b class="fc">&nbsp;        NodeList preList = modifyHeadList(oldNodeList) ? oldNodeList.last : oldNodeList;</b>
+&nbsp;        // nextList表示次数+1的桶的后一个桶是谁
+<b class="fc">&nbsp;        NodeList nextList = oldNodeList.next;</b>
+<b class="fc">&nbsp;        if (nextList == null) {</b>
+<b class="fc">&nbsp;            NodeList newList = new NodeList(node);</b>
+<b class="pc">&nbsp;            if (preList != null) {</b>
+<b class="fc">&nbsp;                preList.next = newList;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            newList.last = preList;</b>
+<b class="pc">&nbsp;            if (headList == null) {</b>
+<b class="nc">&nbsp;                headList = newList;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            heads.put(node, newList);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            if (nextList.head.times.equals(node.times)) {</b>
+<b class="fc">&nbsp;                nextList.addNodeFromHead(node);</b>
+<b class="fc">&nbsp;                heads.put(node, nextList);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                NodeList newList = new NodeList(node);</b>
+<b class="pc">&nbsp;                if (preList != null) {</b>
+<b class="nc">&nbsp;                    preList.next = newList;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                newList.last = preList;</b>
+<b class="fc">&nbsp;                newList.next = nextList;</b>
+<b class="fc">&nbsp;                nextList.last = newList;</b>
+<b class="pc">&nbsp;                if (headList == nextList) {</b>
+<b class="fc">&nbsp;                    headList = newList;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                heads.put(node, newList);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void put(int key, int value) {
+<b class="fc">&nbsp;        if (capacity == 0) {</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="fc">&nbsp;        if (records.containsKey(key)) {</b>
+<b class="fc">&nbsp;            Node node = records.get(key);</b>
+<b class="fc">&nbsp;            node.value = value;</b>
+<b class="fc">&nbsp;            node.times++;</b>
+<b class="fc">&nbsp;            NodeList curNodeList = heads.get(node);</b>
+<b class="fc">&nbsp;            move(node, curNodeList);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            if (size == capacity) {</b>
+<b class="fc">&nbsp;                Node node = headList.tail;</b>
+<b class="fc">&nbsp;                headList.deleteNode(node);</b>
+<b class="fc">&nbsp;                modifyHeadList(headList);</b>
+<b class="fc">&nbsp;                records.remove(node.key);</b>
+<b class="fc">&nbsp;                heads.remove(node);</b>
+<b class="fc">&nbsp;                size--;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            Node node = new Node(key, value, 1);</b>
+<b class="fc">&nbsp;            if (headList == null) {</b>
+<b class="fc">&nbsp;                headList = new NodeList(node);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                if (headList.head.times.equals(node.times)) {</b>
+<b class="fc">&nbsp;                    headList.addNodeFromHead(node);</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    NodeList newList = new NodeList(node);</b>
+<b class="fc">&nbsp;                    newList.next = headList;</b>
+<b class="fc">&nbsp;                    headList.last = newList;</b>
+<b class="fc">&nbsp;                    headList = newList;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            records.put(key, node);</b>
+<b class="fc">&nbsp;            heads.put(node, headList);</b>
+<b class="fc">&nbsp;            size++;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public int get(int key) {
+<b class="fc">&nbsp;        if (!records.containsKey(key)) {</b>
+<b class="fc">&nbsp;            return -1;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Node node = records.get(key);</b>
+<b class="fc">&nbsp;        node.times++;</b>
+<b class="fc">&nbsp;        NodeList curNodeList = heads.get(node);</b>
+<b class="fc">&nbsp;        move(node, curNodeList);</b>
+<b class="fc">&nbsp;        return node.value;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-31 20:05</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Code04_SmallestRangeCoveringElementsfromKLists</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">class19</a>
+</div>
+
+<h1>Coverage Summary for Class: Code04_SmallestRangeCoveringElementsfromKLists (class19)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Code04_SmallestRangeCoveringElementsfromKLists</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Code04_SmallestRangeCoveringElementsfromKLists$Node</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Code04_SmallestRangeCoveringElementsfromKLists$NodeComparator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package class19;
+&nbsp;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.TreeSet;
+&nbsp;
+&nbsp;// 本题测试链接 : https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/
+<b class="nc">&nbsp;public class Code04_SmallestRangeCoveringElementsfromKLists {</b>
+&nbsp;
+&nbsp;    public static class Node {
+&nbsp;        public int value;
+&nbsp;        public int arrid;
+&nbsp;        public int index;
+&nbsp;
+<b class="nc">&nbsp;        public Node(int v, int ai, int i) {</b>
+<b class="nc">&nbsp;            value = v;</b>
+<b class="nc">&nbsp;            arrid = ai;</b>
+<b class="nc">&nbsp;            index = i;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public static class NodeComparator implements Comparator&lt;Node&gt; {</b>
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public int compare(Node o1, Node o2) {
+<b class="nc">&nbsp;            return o1.value != o2.value ? o1.value - o2.value : o1.arrid - o2.arrid;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int[] smallestRange(List&lt;List&lt;Integer&gt;&gt; nums) {
+<b class="nc">&nbsp;        int N = nums.size();</b>
+<b class="nc">&nbsp;        TreeSet&lt;Node&gt; orderSet = new TreeSet&lt;&gt;(new NodeComparator());</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; N; i++) {</b>
+<b class="nc">&nbsp;            orderSet.add(new Node(nums.get(i).get(0), i, 0));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        boolean set = false;</b>
+<b class="nc">&nbsp;        int a = 0;</b>
+<b class="nc">&nbsp;        int b = 0;</b>
+<b class="nc">&nbsp;        while (orderSet.size() == N) {</b>
+<b class="nc">&nbsp;            Node min = orderSet.first();</b>
+<b class="nc">&nbsp;            Node max = orderSet.last();</b>
+<b class="nc">&nbsp;            if (!set || (max.value - min.value &lt; b - a)) {</b>
+<b class="nc">&nbsp;                set = true;</b>
+<b class="nc">&nbsp;                a = min.value;</b>
+<b class="nc">&nbsp;                b = max.value;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            min = orderSet.pollFirst();</b>
+<b class="nc">&nbsp;            int arrid = min.arrid;</b>
+<b class="nc">&nbsp;            int index = min.index + 1;</b>
+<b class="nc">&nbsp;            if (index != nums.get(arrid).size()) {</b>
+<b class="nc">&nbsp;                orderSet.add(new Node(nums.get(arrid).get(index), arrid, index));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return new int[]{a, b};</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-31 20:05</div>
+</div>
+</body>
+</html>

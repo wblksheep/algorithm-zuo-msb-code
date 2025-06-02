@@ -1,0 +1,346 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Code01_LRUCache</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">class19</a>
+</div>
+
+<h1>Coverage Summary for Class: Code01_LRUCache (class19)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Code01_LRUCache</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Code01_LRUCache$MyCache</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Code01_LRUCache$Node</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Code01_LRUCache$NodeDoubleLinkedList</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package class19;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;// 本题测试链接 : https://leetcode.com/problems/lru-cache/
+&nbsp;// 提交时把类名和构造方法名改成 : LRUCache
+&nbsp;public class Code01_LRUCache {
+&nbsp;
+<b class="nc">&nbsp;    public Code01_LRUCache(int capacity) {</b>
+<b class="nc">&nbsp;        cache = new MyCache&lt;&gt;(capacity);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private MyCache&lt;Integer, Integer&gt; cache;
+&nbsp;
+&nbsp;    public int get(int key) {
+<b class="nc">&nbsp;        Integer ans = cache.get(key);</b>
+<b class="nc">&nbsp;        return ans == null ? -1 : ans;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void put(int key, int value) {
+<b class="nc">&nbsp;        cache.set(key, value);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static class Node&lt;K, V&gt; {
+&nbsp;        public K key;
+&nbsp;        public V value;
+&nbsp;        public Node&lt;K, V&gt; last;
+&nbsp;        public Node&lt;K, V&gt; next;
+&nbsp;
+<b class="nc">&nbsp;        public Node(K key, V value) {</b>
+<b class="nc">&nbsp;            this.key = key;</b>
+<b class="nc">&nbsp;            this.value = value;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static class NodeDoubleLinkedList&lt;K, V&gt; {
+&nbsp;        private Node&lt;K, V&gt; head;
+&nbsp;        private Node&lt;K, V&gt; tail;
+&nbsp;
+<b class="nc">&nbsp;        public NodeDoubleLinkedList() {</b>
+<b class="nc">&nbsp;            head = null;</b>
+<b class="nc">&nbsp;            tail = null;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // 现在来了一个新的node，请挂到尾巴上去
+&nbsp;        public void addNode(Node&lt;K, V&gt; newNode) {
+<b class="nc">&nbsp;            if (newNode == null) {</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="nc">&nbsp;            if (head == null) {</b>
+<b class="nc">&nbsp;                head = newNode;</b>
+<b class="nc">&nbsp;                tail = newNode;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                tail.next = newNode;</b>
+<b class="nc">&nbsp;                newNode.last = tail;</b>
+<b class="nc">&nbsp;                tail = newNode;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        // node 入参，一定保证！node在双向链表里！
+&nbsp;        // node原始的位置，左右重新连好，然后把node分离出来
+&nbsp;        // 挂到整个链表的尾巴上
+&nbsp;        public void moveNodeToTail(Node&lt;K, V&gt; node) {
+<b class="nc">&nbsp;            if (tail == node) {</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="nc">&nbsp;            if (head == node) {</b>
+<b class="nc">&nbsp;                head = node.next;</b>
+<b class="nc">&nbsp;                head.last = null;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                node.last.next = node.next;</b>
+<b class="nc">&nbsp;                node.next.last = node.last;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            node.last = tail;</b>
+<b class="nc">&nbsp;            node.next = null;</b>
+<b class="nc">&nbsp;            tail.next = node;</b>
+<b class="nc">&nbsp;            tail = node;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Node&lt;K, V&gt; removeHead() {
+<b class="nc">&nbsp;            if (head == null) {</b>
+<b class="nc">&nbsp;                return null;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            Node&lt;K, V&gt; res = head;</b>
+<b class="nc">&nbsp;            if (head == tail) {</b>
+<b class="nc">&nbsp;                head = null;</b>
+<b class="nc">&nbsp;                tail = null;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                head = res.next;</b>
+<b class="nc">&nbsp;                res.next = null;</b>
+<b class="nc">&nbsp;                head.last = null;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            return res;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public static class MyCache&lt;K, V&gt; {
+&nbsp;        private HashMap&lt;K, Node&lt;K, V&gt;&gt; keyNodeMap;
+&nbsp;        private NodeDoubleLinkedList&lt;K, V&gt; nodeList;
+&nbsp;        private final int capacity;
+&nbsp;
+<b class="nc">&nbsp;        public MyCache(int cap) {</b>
+<b class="nc">&nbsp;            keyNodeMap = new HashMap&lt;K, Node&lt;K, V&gt;&gt;();</b>
+<b class="nc">&nbsp;            nodeList = new NodeDoubleLinkedList&lt;K, V&gt;();</b>
+<b class="nc">&nbsp;            capacity = cap;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public V get(K key) {
+<b class="nc">&nbsp;            if (keyNodeMap.containsKey(key)) {</b>
+<b class="nc">&nbsp;                Node&lt;K, V&gt; res = keyNodeMap.get(key);</b>
+<b class="nc">&nbsp;                nodeList.moveNodeToTail(res);</b>
+<b class="nc">&nbsp;                return res.value;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // set(Key, Value)
+&nbsp;        // 新增  更新value的操作
+&nbsp;        public void set(K key, V value) {
+<b class="nc">&nbsp;            if (keyNodeMap.containsKey(key)) {</b>
+<b class="nc">&nbsp;                Node&lt;K, V&gt; node = keyNodeMap.get(key);</b>
+<b class="nc">&nbsp;                node.value = value;</b>
+<b class="nc">&nbsp;                nodeList.moveNodeToTail(node);</b>
+&nbsp;            } else { // 新增！
+<b class="nc">&nbsp;                Node&lt;K, V&gt; newNode = new Node&lt;K, V&gt;(key, value);</b>
+<b class="nc">&nbsp;                keyNodeMap.put(key, newNode);</b>
+<b class="nc">&nbsp;                nodeList.addNode(newNode);</b>
+<b class="nc">&nbsp;                if (keyNodeMap.size() == capacity + 1) {</b>
+<b class="nc">&nbsp;                    removeMostUnusedCache();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        private void removeMostUnusedCache() {
+<b class="nc">&nbsp;            Node&lt;K, V&gt; removeNode = nodeList.removeHead();</b>
+<b class="nc">&nbsp;            keyNodeMap.remove(removeNode.key);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-31 20:05</div>
+</div>
+</body>
+</html>
