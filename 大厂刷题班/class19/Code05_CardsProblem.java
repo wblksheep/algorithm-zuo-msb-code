@@ -154,7 +154,14 @@ public class Code05_CardsProblem {
 
         long start = 0;
         long end = 0;
-        String[] arr = generateCards(10000000);
+        String[] arr = generateCards(1000);
+        System.out.println("arr size : " + arr.length + " runtime test begin");
+        start = System.currentTimeMillis();
+        ways1(arr);
+        end = System.currentTimeMillis();
+        System.out.println("run time : " + (end - start) + " ms");
+        System.out.println("runtime test end");
+
         System.out.println("arr size : " + arr.length + " runtime test begin");
         start = System.currentTimeMillis();
         ways2(arr);

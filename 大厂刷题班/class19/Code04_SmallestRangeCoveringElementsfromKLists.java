@@ -1,5 +1,6 @@
 package class19;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
@@ -53,6 +54,16 @@ public class Code04_SmallestRangeCoveringElementsfromKLists {
             }
         }
         return new int[]{a, b};
+    }
+
+    public static void main(String[] args) {
+        List<List<Integer>> m = Arrays.asList(Arrays.asList(1, 2, 3), Arrays.asList(1, 2, 3), Arrays.asList(1, 2, 3));
+        int[] res = smallestRange(m);
+        int n = res.length;
+        for (int i = 0; i < n - 1; i++) {
+            System.out.print(res[i] + " ");
+        }
+        System.out.println(res[n - 1]);
     }
 
 }
