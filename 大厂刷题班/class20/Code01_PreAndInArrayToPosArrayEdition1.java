@@ -212,8 +212,8 @@ public class Code01_PreAndInArrayToPosArrayEdition1 {
 
     public static void main(String[] args) {
         System.out.println("test begin");
-        int maxLevel = 5;
-        int value = 1000;
+        int maxLevel = 3;
+        int value = 10;
         int testTime = 100000;
         for (int i = 0; i < testTime; i++) {
             Node head = generateRandomTree(value, maxLevel);
