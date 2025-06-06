@@ -6,17 +6,6 @@ import java.util.HashMap;
 // 提交时把类名和构造方法名改成 : LRUCache
 public class Code01_LRUCacheEdition1 {
 
-    public static void main(String[] args) {
-        Code01_LRUCacheEdition1 lruCache = new Code01_LRUCacheEdition1(3);
-        lruCache.put(1, 1);
-        lruCache.put(2, 2);
-        lruCache.put(3, 3);
-        System.out.println(lruCache.get(1));
-        System.out.println(lruCache.get(2));
-        lruCache.put(4, 4);
-        System.out.println(lruCache.get(3));
-    }
-
     public Code01_LRUCacheEdition1(int capacity) {
         cache = new MyCache<>(capacity);
     }
@@ -35,8 +24,8 @@ public class Code01_LRUCacheEdition1 {
     public static class Node<K, V> {
         public K key;
         public V value;
-        public Code01_LRUCache.Node<K, V> last;
-        public Code01_LRUCache.Node<K, V> next;
+        public Node<K, V> last;
+        public Node<K, V> next;
 
         public Node(K key, V value) {
             this.key = key;
@@ -45,8 +34,8 @@ public class Code01_LRUCacheEdition1 {
     }
 
     public static class NodeDoubleLinkedList<K, V> {
-        private Code01_LRUCache.Node<K, V> head;
-        private Code01_LRUCache.Node<K, V> tail;
+        private Node<K, V> head;
+        private Node<K, V> tail;
 
         public NodeDoubleLinkedList() {
             head = null;
@@ -54,7 +43,7 @@ public class Code01_LRUCacheEdition1 {
         }
 
         // 现在来了一个新的node，请挂到尾巴上去
-        public void addNode(Code01_LRUCache.Node<K, V> newNode) {
+        public void addNode(Node<K, V> newNode) {
             if (newNode == null) {
                 return;
             }
@@ -71,7 +60,7 @@ public class Code01_LRUCacheEdition1 {
         // node 入参，一定保证！node在双向链表里！
         // node原始的位置，左右重新连好，然后把node分离出来
         // 挂到整个链表的尾巴上
-        public void moveNodeToTail(Code01_LRUCache.Node<K, V> node) {
+        public void moveNodeToTail(Node<K, V> node) {
             if (tail == node) {
                 return;
             }
@@ -88,11 +77,11 @@ public class Code01_LRUCacheEdition1 {
             tail = node;
         }
 
-        public Code01_LRUCache.Node<K, V> removeHead() {
+        public Node<K, V> removeHead() {
             if (head == null) {
                 return null;
             }
-            Code01_LRUCache.Node<K, V> res = head;
+            Node<K, V> res = head;
             if (head == tail) {
                 head = null;
                 tail = null;
@@ -107,19 +96,19 @@ public class Code01_LRUCacheEdition1 {
     }
 
     public static class MyCache<K, V> {
-        private HashMap<K, Code01_LRUCache.Node<K, V>> keyNodeMap;
-        private Code01_LRUCache.NodeDoubleLinkedList<K, V> nodeList;
+        private HashMap<K, Node<K, V>> keyNodeMap;
+        private NodeDoubleLinkedList<K, V> nodeList;
         private final int capacity;
 
         public MyCache(int cap) {
-            keyNodeMap = new HashMap<K, Code01_LRUCache.Node<K, V>>();
-            nodeList = new Code01_LRUCache.NodeDoubleLinkedList<K, V>();
+            keyNodeMap = new HashMap<K, Node<K, V>>();
+            nodeList = new NodeDoubleLinkedList<K, V>();
             capacity = cap;
         }
 
         public V get(K key) {
             if (keyNodeMap.containsKey(key)) {
-                Code01_LRUCache.Node<K, V> res = keyNodeMap.get(key);
+                Node<K, V> res = keyNodeMap.get(key);
                 nodeList.moveNodeToTail(res);
                 return res.value;
             }
@@ -130,11 +119,11 @@ public class Code01_LRUCacheEdition1 {
         // 新增  更新value的操作
         public void set(K key, V value) {
             if (keyNodeMap.containsKey(key)) {
-                Code01_LRUCache.Node<K, V> node = keyNodeMap.get(key);
+                Node<K, V> node = keyNodeMap.get(key);
                 node.value = value;
                 nodeList.moveNodeToTail(node);
             } else { // 新增！
-                Code01_LRUCache.Node<K, V> newNode = new Code01_LRUCache.Node<K, V>(key, value);
+                Node<K, V> newNode = new Node<K, V>(key, value);
                 keyNodeMap.put(key, newNode);
                 nodeList.addNode(newNode);
                 if (keyNodeMap.size() == capacity + 1) {
@@ -144,10 +133,20 @@ public class Code01_LRUCacheEdition1 {
         }
 
         private void removeMostUnusedCache() {
-            Code01_LRUCache.Node<K, V> removeNode = nodeList.removeHead();
+            Node<K, V> removeNode = nodeList.removeHead();
             keyNodeMap.remove(removeNode.key);
         }
 
     }
 
+    public static void main(String[] args) {
+        Code01_LRUCacheEdition1 lruCache = new Code01_LRUCacheEdition1(3);
+        lruCache.put(1, 1);
+        lruCache.put(2, 2);
+        lruCache.put(3, 3);
+        System.out.println(lruCache.get(1));
+        System.out.println(lruCache.get(2));
+        lruCache.put(4, 4);
+        System.out.println(lruCache.get(3));
+    }
 }
