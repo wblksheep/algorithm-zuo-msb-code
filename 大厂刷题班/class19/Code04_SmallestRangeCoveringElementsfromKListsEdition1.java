@@ -1,6 +1,9 @@
 package class19;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.TreeSet;
 
 // 本题测试链接 : https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/
 public class Code04_SmallestRangeCoveringElementsfromKListsEdition1 {
@@ -28,41 +31,29 @@ public class Code04_SmallestRangeCoveringElementsfromKListsEdition1 {
 
     public static int[] smallestRange(List<List<Integer>> nums) {
         int N = nums.size();
-        // 最小堆，按值排序
-        PriorityQueue<Node> minHeap = new PriorityQueue<>((a, b) -> a.value - b.value);
-        int currentMax = Integer.MIN_VALUE;
-
-        // 初始化：添加每个列表的第一个元素
+        TreeSet<Node> orderSet = new TreeSet<>(new NodeComparator());
         for (int i = 0; i < N; i++) {
-            int value = nums.get(i).get(0);
-            minHeap.offer(new Node(value, i, 0));
-            currentMax = Math.max(currentMax, value);
+            orderSet.add(new Node(nums.get(i).get(0), i, 0));
         }
-
-        int minRange = Integer.MAX_VALUE;
-        int start = -1, end = -1;
-
-        while (minHeap.size() == N) {
-            Node minNode = minHeap.poll();
-            int currentMin = minNode.value;
-
-            // 更新最小范围
-            if (currentMax - currentMin < minRange) {
-                minRange = currentMax - currentMin;
-                start = currentMin;
-                end = currentMax;
+        boolean set = false;
+        int a = 0;
+        int b = 0;
+        while (orderSet.size() == N) {
+            Node min = orderSet.first();
+            Node max = orderSet.last();
+            if (!set || (max.value - min.value < b - a)) {
+                set = true;
+                a = min.value;
+                b = max.value;
             }
-
-            // 获取下一个元素
-            int nextIndex = minNode.index + 1;
-            if (nextIndex < nums.get(minNode.arrid).size()) {
-                int nextValue = nums.get(minNode.arrid).get(nextIndex);
-                minHeap.offer(new Node(nextValue, minNode.arrid, nextIndex));
-                currentMax = Math.max(currentMax, nextValue);
+            min = orderSet.pollFirst();
+            int arrid = min.arrid;
+            int index = min.index + 1;
+            if (index != nums.get(arrid).size()) {
+                orderSet.add(new Node(nums.get(arrid).get(index), arrid, index));
             }
         }
-
-        return new int[]{start, end};
+        return new int[]{a, b};
     }
 
     public static void main(String[] args) {
@@ -74,4 +65,5 @@ public class Code04_SmallestRangeCoveringElementsfromKListsEdition1 {
         }
         System.out.println(res[n - 1]);
     }
+
 }
