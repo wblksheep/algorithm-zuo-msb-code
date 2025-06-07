@@ -21,6 +21,12 @@ public class Code02_LargestComponentSizebyCommonFactorEdition1 {
         return set.maxSize();
     }
 
+    // O(1)
+    // m,n 要是正数，不能有任何一个等于0
+    public static int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
     public static int largestComponentSize2(int[] arr) {
         int N = arr.length;
         // arr中，N个位置，在并查集初始时，每个位置自己是一个集合
@@ -52,12 +58,6 @@ public class Code02_LargestComponentSizebyCommonFactorEdition1 {
             }
         }
         return unionFind.maxSize();
-    }
-
-    // O(1)
-    // m,n 要是正数，不能有任何一个等于0
-    public static int gcd(int a, int b) {
-        return b == 0 ? a : gcd(b, a % b);
     }
 
     public static class UnionFind {
