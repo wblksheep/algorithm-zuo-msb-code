@@ -83,7 +83,9 @@ public class Code02_LFUCacheEditor2 {
                         headList.last = null;
                     }
                 } else {
-                    this.last.next = this.next;
+                    if (this.last != null) {
+                        this.last.next = this.next;
+                    }
                     if (this.next != null) {
                         this.next.last = this.last;
                     }
