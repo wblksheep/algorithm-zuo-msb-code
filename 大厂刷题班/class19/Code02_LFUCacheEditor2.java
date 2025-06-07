@@ -6,18 +6,32 @@ import java.util.HashMap;
 // 提交时把类名和构造方法名改为 : LFUCache
 public class Code02_LFUCacheEditor2 {
 
-    private static HashMap<Integer, Node> records;
-    private static HashMap<Node, NodeList> heads;
-    private static NodeList headList;
-    private final int capacity;
-    private int size;
-
     public Code02_LFUCacheEditor2(int capacity) {
+        this.capacity = capacity;
+        size = 0;
         records = new HashMap<>();
         heads = new HashMap<>();
         headList = null;
-        this.capacity = capacity;
-        size = 0;
+    }
+
+    private final int capacity;
+    private int size;
+    private HashMap<Integer, Node> records;
+    private HashMap<Node, NodeList> heads;
+    private static NodeList headList;
+
+    public static class Node {
+        private Integer key;
+        private Integer value;
+        private Integer times;
+        private Node up;
+        private Node down;
+
+        public Node(Integer k, Integer v, Integer t) {
+            key = k;
+            value = v;
+            times = t;
+        }
     }
 
     public static class NodeList {
@@ -29,6 +43,12 @@ public class Code02_LFUCacheEditor2 {
         public NodeList(Node node) {
             head = node;
             tail = node;
+        }
+
+        public void addNodeFromHead(Node node) {
+            node.down = head;
+            head.up = node;
+            head = node;
         }
 
         public boolean isEmpty() {
@@ -47,8 +67,8 @@ public class Code02_LFUCacheEditor2 {
                     tail = node.up;
                     tail.down = null;
                 } else {
-                    node.down.up = node.up;
                     node.up.down = node.down;
+                    node.down.up = node.up;
                 }
                 node.up = null;
                 node.down = null;
@@ -75,27 +95,9 @@ public class Code02_LFUCacheEditor2 {
             return false;
         }
 
-        public void addNode(Node node) {
-            head.up = node;
-            node.down = head;
-            head = node;
-        }
-    }
-
-    public static class Node {
-        private Integer key;
-        private Integer value;
-        private Integer times;
-        private Node up;
-        private Node down;
-
-        public Node(Integer k, Integer v, Integer t) {
-            key = k;
-            value = v;
-            times = t;
-        }
 
     }
+
 
     private void move(Node node, NodeList oldNodeList) {
         oldNodeList.deleteNode(node);
@@ -114,7 +116,7 @@ public class Code02_LFUCacheEditor2 {
             heads.put(node, newList);
         } else {
             if (nextList.head.times.equals(node.times)) {
-                nextList.addNode(node);
+                nextList.addNodeFromHead(node);
                 heads.put(node, nextList);
             } else {
                 NodeList newList = new NodeList(node);
@@ -130,17 +132,6 @@ public class Code02_LFUCacheEditor2 {
                 heads.put(node, newList);
             }
         }
-    }
-
-    public int get(int key) {
-        if (!records.containsKey(key)) {
-            return -1;
-        }
-        Node node = records.get(key);
-        node.times++;
-        NodeList curNodeList = heads.get(node);
-        move(node, curNodeList);
-        return node.value;
     }
 
     public void put(int key, int value) {
@@ -167,7 +158,7 @@ public class Code02_LFUCacheEditor2 {
                 headList = new NodeList(node);
             } else {
                 if (headList.head.times.equals(node.times)) {
-                    headList.addNode(node);
+                    headList.addNodeFromHead(node);
                 } else {
                     NodeList newList = new NodeList(node);
                     newList.next = headList;
@@ -179,5 +170,16 @@ public class Code02_LFUCacheEditor2 {
             heads.put(node, headList);
             size++;
         }
+    }
+
+    public int get(int key) {
+        if (!records.containsKey(key)) {
+            return -1;
+        }
+        Node node = records.get(key);
+        node.times++;
+        NodeList curNodeList = heads.get(node);
+        move(node, curNodeList);
+        return node.value;
     }
 }
