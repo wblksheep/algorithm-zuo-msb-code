@@ -376,8 +376,8 @@ public class TreeChainPartition {
 
 	// 对数器
 	public static void main(String[] args) {
-		int N = 50000;
-		int V = 100000;
+		int N = 10;
+		int V = 10;
 		int[] father = generateFatherArray(N);
 		int[] values = generateValueArray(N, V);
 		TreeChain tc = new TreeChain(father, values);

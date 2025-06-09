@@ -11,23 +11,10 @@ import java.util.List;
 // 2023年5月第5周的课，看会！
 // 本题测试链接 : https://leetcode.com/problems/palindrome-pairs/
 // 字符串哈希 + Manacher算法！打败95%的人！
-public class Code03_PalindromePairs2Edition1 {
+public class Code03_PalindromePairs2Edition2 {
 
     // 选一个质数做进制数
     public static int BASE = 499;
-
-    // 计算一个字符串的哈希值
-    public static long hashValue(String str) {
-        if (str.equals("")) {
-            return 0;
-        }
-        int n = str.length();
-        long ans = str.charAt(0) - 'a' + 1;
-        for (int j = 1; j < n; j++) {
-            ans = ans * BASE + str.charAt(j) - 'a' + 1;
-        }
-        return ans;
-    }
 
     // 字符串最大长度
     // 以下内容看字符串哈希的内容
@@ -37,26 +24,30 @@ public class Code03_PalindromePairs2Edition1 {
 
     static {
         pow[0] = 1;
-        for (int j = 1; j < MAXN; j++) {
-            pow[j] = pow[j - 1] * BASE;
+        for (int i = 1; i < MAXN; i++) {
+            pow[i] = pow[i - 1] * BASE;
         }
     }
 
     public static long[] hash = new long[MAXN];
 
-    public static void buildHash(String str) {
-        hash[0] = str.charAt(0) - 'a' + 1;
-        for (int j = 1; j < str.length(); j++) {
-            hash[j] = hash[j - 1] * BASE + str.charAt(j) - 'a' + 1;
-        }
-    }
-
-    public static long hashValue(int l, int r) {
+    public static long hash(int l, int r) {
         if (l > r) {
             return 0;
         }
         long ans = hash[r];
         ans -= l == 0 ? 0 : (hash[l - 1] * pow[r - l + 1]);
+        return ans;
+    }
+
+    public static long hashValue(String str) {
+        if (str.equals("")) {
+            return 0;
+        }
+        long ans = str.charAt(0) - 'a' + 1;
+        for (int i = 1; i < str.length(); i++) {
+            ans = ans * BASE + str.charAt(i) - 'a' + 1;
+        }
         return ans;
     }
 
@@ -75,34 +66,41 @@ public class Code03_PalindromePairs2Edition1 {
     public static List<List<Integer>> findAll(String word, int index, HashMap<Long, Integer> hash) {
         List<List<Integer>> res = new ArrayList<>();
         String reverse = reverse(word);
-        // 0代表""字符串
-        Integer rest = hash.get(0L);
-        if (rest != null && rest != index && word.equals(reverse)) {
-            res.add(Arrays.asList(rest, index));
-            res.add(Arrays.asList(index, rest));
-        }
-        if (!word.equals("")) {
-            buildHash(reverse);
-            int[] rs = manacherss(word);
-            int mid = rs.length >> 1;
-            for (int i = mid - 1; i >= 1; i--) {
-                if (i - rs[i] == -1) {
-                    rest = hash.get(hashValue(0, mid - i - 1));
-                    if (rest != null && rest != index) {
-                        res.add(Arrays.asList(rest, index));
-                    }
+//        Integer rest = hash.get(0L);
+//        if (rest != null && rest != index && word.equals(reverse)) {
+//            res.add(Arrays.asList(index, rest));
+//            res.add(Arrays.asList(rest, index));
+//        }
+        build(reverse);
+        int[] rs = manacherss(word);
+        int mid = rs.length >> 1;
+        for (int i = 1; i <= mid; i++) {
+            if (i - rs[i] == -1) {
+                Integer rest = hash.get(hash(0, mid - i - 1));
+                if (rest != null && rest != index) {
+                    res.add(Arrays.asList(rest, index));
                 }
             }
-            for (int i = mid + 1; i < rs.length; i++) {
-                if (i + rs[i] == rs.length) {
-                    rest = hash.get(hashValue((mid << 1) - i, reverse.length() - 1));
-                    if (rest != null && rest != index) {
-                        res.add(Arrays.asList(index, rest));
-                    }
+        }
+        for (int i = mid; i < rs.length; i++) {
+            if (i + rs[i] == rs.length) {
+                Integer rest = hash.get(hash((mid << 1) - i, reverse.length() - 1));
+                if (rest != null && rest != index) {
+                    res.add(Arrays.asList(index, rest));
                 }
             }
         }
         return res;
+    }
+
+    public static void build(String word) {
+        if (word == null || word.length() == 0) {
+            return;
+        }
+        hash[0] = word.charAt(0) - 'a' + 1;
+        for (int i = 1; i < word.length(); i++) {
+            hash[i] = hash[i - 1] * BASE + word.charAt(i) - 'a' + 1;
+        }
     }
 
     public static int[] manacherss(String word) {
@@ -150,6 +148,7 @@ public class Code03_PalindromePairs2Edition1 {
 
     public static void main(String[] args) {
         String[] words = {"abcd", "dcba", "", "aa"};
+//        String[] words = {""};
         List<List<Integer>> res = palindromePairs(words);
         for (List<Integer> list : res) {
             System.out.println("[ " + list.get(0) + ", " + list.get(1) + "]");
