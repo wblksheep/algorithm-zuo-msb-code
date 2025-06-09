@@ -58,7 +58,6 @@ public class Code01_SegmentTreeEdition2 {
 
         private void pushDown(int l, int r, int ln, int rn, int rt) {
             if (update[rt]) {
-                change[rt] = 0;
                 update[rt] = false;
                 sum[rt << 1] = change[rt] * ln;
                 lazy[rt << 1] = 0;
@@ -74,6 +73,7 @@ public class Code01_SegmentTreeEdition2 {
                 lazy[rt << 1] += lazy[rt];
                 sum[rt << 1 | 1] += lazy[rt] * rn;
                 lazy[rt << 1 | 1] += lazy[rt];
+                lazy[rt] = 0;
             }
         }
 
@@ -96,13 +96,13 @@ public class Code01_SegmentTreeEdition2 {
             pushUp(rt);
         }
 
-        public int query(int L, int R, int l, int r, int rt) {
+        public long query(int L, int R, int l, int r, int rt) {
             if (L <= l && r <= R) {
                 return sum[rt];
             }
             int mid = (l + r) >> 1;
             pushDown(l, r, mid - l + 1, r - mid, rt);
-            int ans = 0;
+            long ans = 0;
             if (L <= mid) {
                 ans += query(L, R, l, mid, rt << 1);
             }
@@ -476,8 +476,8 @@ public class Code01_SegmentTreeEdition2 {
     }
 
     public static boolean test() {
-        int len = 100;
-        int max = 1000;
+        int len = 10;
+        int max = 10;
         int testTimes = 5000;
         int addOrUpdateTimes = 1000;
         int queryTimes = 500;
@@ -511,6 +511,15 @@ public class Code01_SegmentTreeEdition2 {
                 long ans1 = seg.query(L, R, S, N, root);
                 long ans2 = rig.query(L, R);
                 if (ans1 != ans2) {
+                    System.out.println(ans1);
+                    System.out.println(ans2);
+                    System.out.println(L);
+                    System.out.println(R);
+                    for (i = 0; i < origin.length - 1; i++) {
+                        System.out.print(origin[i] + ", ");
+                    }
+                    System.out.println(origin[origin.length - 1]);
+                    seg.displayTreeGUI();
                     return false;
                 }
             }
@@ -521,13 +530,13 @@ public class Code01_SegmentTreeEdition2 {
     public static void main(String[] args) {
         // 在Swing事件调度线程中运行GUI
         SwingUtilities.invokeLater(() -> {
-            int[] origin = {2, 1, 1, 2, 3, 4, 5};
+            int[] origin = {3, -8, -6};
             SegmentTree seg = new SegmentTree(origin);
             int S = 1;
             int N = origin.length;
             int root = 1;
-            int L = 2;
-            int R = 5;
+            int L = 1;
+            int R = 2;
             int C = 4;
 
             // 构建线段树
