@@ -8,6 +8,8 @@
       <sourceFolder url="file://$MODULE_DIR$/大厂刷题班" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/算法周更班" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/算法新手班" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/打印数据结构器/打印数组器" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/随机数据生成器/随机数组生成器" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
