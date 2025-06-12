@@ -64,7 +64,6 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition1 {
             sum += nums[i];
         }
         range[0] = sum;
-        left[k - 1] = 0;
         int max = sum;
         for (int i = k; i < N; i++) {
             sum = sum - nums[i - k] + nums[i];

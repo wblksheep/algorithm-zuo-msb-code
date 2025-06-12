@@ -40,34 +40,32 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
 //		// 0...k-2 k-1 sum
 //		int[] help = new int[N];
 //		for (int i = k - 1; i < N; i++) {
-//			// 0..k-2 
+//			// 0..k-2
 //			// 01..k-1
 //			sum += arr[i];
 //			help[i] = sum;
-//			// i == k-1  
+//			// i == k-1
 //			sum -= arr[i - k + 1];
 //		}
 //		// help[i] - > dp[i]  0-..i  K
 //
 //	}
 
-    public static int[] maxSumOfThreeSubarrays(int[] nums, int k) {
-        int N = nums.length;
-        // 从i出发找k个值的范围累加和记在range里
-//        range: [5, 7, 8, 8, 9, 8, 11, 7, 10, 0]
-        int[] range = new int[N];
-        // 0-i范围内取k长度的最大值落在哪里
-//        left: [0, 0, 1, 2, 2, 4, 4, 6, 6, 6]
-        int[] left = new int[N];
+    public static int[] maxSumOfThreeSubarrays(int[] arr, int k) {
+        if (arr == null || arr.length < k) {
+            return null;
+        }
+        int n = arr.length;
         int sum = 0;
+        int[] range = new int[n];
         for (int i = 0; i < k; i++) {
-            sum += nums[i];
+            sum += arr[i];
         }
         range[0] = sum;
-        left[k - 1] = 0;
+        int[] left = new int[n];
         int max = sum;
-        for (int i = k; i < N; i++) {
-            sum = sum - nums[i - k] + nums[i];
+        for (int i = k; i < n; i++) {
+            sum = sum - arr[i - k] + arr[i];
             range[i - k + 1] = sum;
             left[i] = left[i - 1];
             if (sum > max) {
@@ -75,20 +73,13 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
                 left[i] = i - k + 1;
             }
         }
-        sum = 0;
-        for (int i = N - 1; i >= N - k; i--) {
-            sum += nums[i];
-        }
-        max = sum;
-        // i-N-1范围内取k长度的最大值开始下标在哪里
-//        right: [6, 6, 6, 6, 6, 6, 6, 8, 8, 0]
-        int[] right = new int[N];
-        right[N - k] = N - k;
-        for (int i = N - k - 1; i >= 0; i--) {
-            sum = sum - nums[i + k] + nums[i];
+        int[] right = new int[n];
+        max = range[n - k];
+        right[n - k] = n - k;
+        for (int i = n - k - 1; i >= 0; i--) {
             right[i] = right[i + 1];
-            if (sum >= max) {
-                max = sum;
+            if (range[i] > max) {
+                max = range[i];
                 right[i] = i;
             }
         }
@@ -96,7 +87,7 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
         int b = 0;
         int c = 0;
         max = 0;
-        for (int i = k; i < N - 2 * k + 1; i++) { // 中间一块的起始点 (0...k-1)选不了 i == N-1
+        for (int i = k; i < n - 2 * k + 1; i++) {
             int part1 = range[left[i - 1]];
             int part2 = range[i];
             int part3 = range[right[i + k]];
@@ -110,11 +101,72 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
         return new int[]{a, b, c};
     }
 
+    public static int[] maxSumOfThreeSubarrays2(int[] arr, int k) {
+        if (arr == null || arr.length < k) {
+            return null;
+        }
+        int n = arr.length;
+        int[] range = new int[n];
+        int[] sum = new int[n];
+        sum[0] = arr[0];
+        for (int i = 1; i < n; i++) {
+            sum[i] = sum[i - 1] + arr[i];
+        }
+        range[0] = sum[k - 1];
+        for (int i = 1; i < n - k + 1; i++) {
+            range[i] = sum[i + k - 1] - sum[i - 1];
+        }
+        int max = range[0];
+        int[] left = new int[n];
+        for (int i = k; i < n; i++) {
+            left[i] = left[i - 1];
+            if (range[i - k + 1] > max) {
+                max = range[i - k + 1];
+                left[i] = i - k + 1;
+            }
+        }
+        int[] right = new int[n];
+        max = range[n - k];
+        right[n - k] = n - k;
+        for (int i = n - k - 1; i >= 0; i--) {
+            right[i] = right[i + 1];
+            if (range[i] > max) {
+                max = range[i];
+                right[i] = i;
+            }
+        }
+//        range[0] = sum;
+//        int[] left = new int[n];
+//        int max = sum;
+//        for (int i = k; i < n; i++) {
+//            sum = sum - arr[i - k] + arr[i];
+//            range[i - k + 1] = sum;
+//            left[i] = left[i - 1];
+//            if (sum > max) {
+//                max = sum;
+//                left[i] = i - k + 1;
+//            }
+//        }
+//        int[] right = new int[n];
+//        max = range[n - k];
+//        right[n - k] = n - k;
+//        for (int i = n - k - 1; i >= 0; i--) {
+//            right[i] = right[i + 1];
+//            if (range[i] > max) {
+//                max = range[i];
+//                right[i] = i;
+//            }
+//        }
+        return null;
+    }
+
+
     public static void main(String[] args) {
 //        int[] arr = generatePositiveRandomArray(10, 10);
         int[] arr = {4, 1, 6, 2, 6, 3, 5, 6, 1, 9};
         printArray("arr", arr);
         printArray("res", maxSumOfThreeSubarrays(arr, 2));
+//        printArray("res", maxSumOfThreeSubarrays2(arr, 2));
     }
 
     /**
