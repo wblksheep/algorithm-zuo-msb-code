@@ -1,10 +1,11 @@
 package class22;
 
-import java.util.HashSet;
-import java.util.Stack;
+import java.util.PriorityQueue;
 
-import static class22.PositiveRandomArrayGenerator.generatePositiveRandomArray;
 import static class22.ArrayPrinter.printArray;
+
+import static class22.Code04_VisibleMountains.getVisibleNum;
+import static class22.PositiveRandomArrayGenerator.generatePositiveRandomArray;
 
 public class Code04_VisibleMountainsEdition1 {
 
@@ -20,64 +21,55 @@ public class Code04_VisibleMountainsEdition1 {
         }
     }
 
-    public static int getVisibleNum(int[] arr) {
+    public static int getVisibleNum2(int[] arr) {
         if (arr == null || arr.length < 2) {
             return 0;
         }
-        int N = arr.length;
+        int n = arr.length;
         int maxIndex = 0;
-        // 先在环中找到其中一个最大值的位置，哪一个都行
-        for (int i = 0; i < N; i++) {
-            maxIndex = arr[maxIndex] < arr[i] ? i : maxIndex;
+        for (int i = 0; i < n; i++) {
+            maxIndex = arr[i] > arr[maxIndex] ? i : maxIndex;
         }
-        Stack<Record> stack = new Stack<Record>();
-        // 先把(最大值,1)这个记录放入stack中
-        stack.push(new Record(arr[maxIndex]));
-        // 从最大值位置的下一个位置开始沿next方向遍历
-        int index = nextIndex(maxIndex, N);
-        // 用“小找大”的方式统计所有可见山峰对
-        int res = 0;
-        // 遍历阶段开始，当index再次回到maxIndex的时候，说明转了一圈，遍历阶段就结束
+        PriorityQueue<Record> minHeap = new PriorityQueue<>((a, b) -> a.value - b.value);
+        minHeap.add(new Record(arr[maxIndex]));
+        int index = nextIndex(maxIndex, n);
+        int ans = 0;
         while (index != maxIndex) {
-            // 当前数要进入栈，判断会不会破坏第一维的数字从顶到底依次变大
-            // 如果破坏了，就依次弹出栈顶记录，并计算山峰对数量
-            while (stack.peek().value < arr[index]) {
-                int k = stack.pop().times;
-                // 弹出记录为(X,K)，如果K==1，产生2对; 如果K>1，产生2*K + C(2,K)对。
-                res += getInternalSum(k) + 2 * k;
+            while (arr[index] > minHeap.peek().value) {
+                Record min = minHeap.poll();
+                int k = min.times;
+                ans += 2 * k + getInternal(k);
             }
-            // 当前数字arr[index]要进入栈了，如果和当前栈顶数字一样就合并
-            // 不一样就把记录(arr[index],1)放入栈中
-            if (stack.peek().value == arr[index]) {
-                stack.peek().times++;
-            } else { // >
-                stack.push(new Record(arr[index]));
+            if (arr[index] == minHeap.peek().value) {
+                minHeap.peek().times++;
+            } else {
+                minHeap.add(new Record(arr[index]));
             }
-            index = nextIndex(index, N);
+            index = nextIndex(index, n);
         }
-        // 清算阶段开始了
-        // 清算阶段的第1小阶段
-        while (stack.size() > 2) {
-            int times = stack.pop().times;
-            res += getInternalSum(times) + 2 * times;
+        while (minHeap.size() > 2) {
+            Record min = minHeap.poll();
+            int k = min.times;
+            ans += 2 * k + getInternal(k);
         }
-        // 清算阶段的第2小阶段
-        if (stack.size() == 2) {
-            int times = stack.pop().times;
-            res += getInternalSum(times)
-                    + (stack.peek().times == 1 ? times : 2 * times);
+        if (minHeap.size() == 2) {
+            Record min = minHeap.poll();
+            int k = min.times;
+            int lastTimes = minHeap.peek().times;
+            ans += (lastTimes == 1 ? 0 : k) + k + getInternal(k);
         }
-        // 清算阶段的第3小阶段
-        res += getInternalSum(stack.pop().times);
-        return res;
+        if (minHeap.size() == 1) {
+            Record min = minHeap.poll();
+            int k = min.times;
+            ans += getInternal(k);
+        }
+        return ans;
     }
 
-    // 如果k==1返回0，如果k>1返回C(2,k)
-    public static int getInternalSum(int k) {
+    public static int getInternal(int k) {
         return k == 1 ? 0 : (k * (k - 1) / 2);
     }
 
-    // 环形数组中当前位置为i，数组长度为size，返回i的下一个位置
     public static int nextIndex(int i, int size) {
         return (i + 1) % size;
     }
@@ -89,9 +81,10 @@ public class Code04_VisibleMountainsEdition1 {
 
     public static void main(String[] args) {
 //        int[] arr = {6, 9, 9, 3, 1, 2, 7, 2, 7, 5};
-        int[] arr = {2, 10, 6, 5, 10, 9, 3, 6, 9, 1, 6, 1, 9, 4, 6, 10, 10, 2, 1, 8};
-//        int[] arr = generatePositiveRandomArray(20, 10);
+//        int[] arr = {2, 10, 6, 5, 10, 9, 3, 6, 9, 1, 6, 1, 9, 4, 6, 10, 10, 2, 1, 8};
+        int[] arr = generatePositiveRandomArray(100000, 100);
         printArray("arr", arr);
+        System.out.println(getVisibleNum2(arr));
         System.out.println(getVisibleNum(arr));
     }
 
