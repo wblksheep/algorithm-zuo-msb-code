@@ -31,7 +31,8 @@ public class Code02_TrappingRainWaterEdition1 {
     }
 
     public static void main(String[] args) {
-        int[] arr = generatePositiveRandomArray(10, 10);
+//        int[] arr = generatePositiveRandomArray(10, 10);
+        int[] arr = {3, 9, 5, 2, 2, 9, 3, 6, 6, 7};
         printArray("arr", arr);
         System.out.println(trap(arr));
     }

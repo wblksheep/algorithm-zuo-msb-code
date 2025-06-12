@@ -15,7 +15,8 @@ public class Code02_TrappingRainWaterEdition2 {
         int n = arr.length;
         int leftMax = arr[0];
         int rightMax = arr[n - 1];
-        int l = 1, r = n - 2;
+        int l = 1;
+        int r = n - 2;
         int ans = 0;
         while (l <= r) {
             if (leftMax < rightMax) {
