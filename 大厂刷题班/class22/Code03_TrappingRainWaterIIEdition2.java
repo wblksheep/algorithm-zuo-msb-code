@@ -22,7 +22,7 @@ public class Code03_TrappingRainWaterIIEdition2 {
     }
 
     public static int trapRainWater(int[][] matrix) {
-        if (matrix == null || matrix == null || matrix.length == 0 || matrix[0].length == 0) return 0;
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return 0;
         int n = matrix.length;
         int m = matrix[0].length;
         boolean[][] isEntered = new boolean[n][m];
@@ -44,34 +44,34 @@ public class Code03_TrappingRainWaterIIEdition2 {
             minHeap.add(new Node(matrix[0][j], 0, j));
         }
         int max = 0;
-        int ans = 0;
+        int water = 0;
         while (!minHeap.isEmpty()) {
             Node min = minHeap.poll();
             max = Math.max(max, min.value);
             int i = min.row;
             int j = min.col;
             if (i - 1 >= 0 && !isEntered[i - 1][j]) {
-                ans += Math.max(max - matrix[i - 1][j], 0);
+                water += Math.max(max - matrix[i - 1][j], 0);
                 isEntered[i - 1][j] = true;
                 minHeap.add(new Node(matrix[i - 1][j], i - 1, j));
             }
             if (j - 1 >= 0 && !isEntered[i][j - 1]) {
-                ans += Math.max(max - matrix[i][j - 1], 0);
+                water += Math.max(max - matrix[i][j - 1], 0);
                 isEntered[i][j - 1] = true;
                 minHeap.add(new Node(matrix[i][j - 1], i, j - 1));
             }
             if (i + 1 < n && !isEntered[i + 1][j]) {
-                ans += Math.max(max - matrix[i + 1][j], 0);
+                water += Math.max(max - matrix[i + 1][j], 0);
                 isEntered[i + 1][j] = true;
                 minHeap.add(new Node(matrix[i + 1][j], i + 1, j));
             }
             if (j + 1 < m && !isEntered[i][j + 1]) {
-                ans += Math.max(max - matrix[i][j + 1], 0);
+                water += Math.max(max - matrix[i][j + 1], 0);
                 isEntered[i][j + 1] = true;
                 minHeap.add(new Node(matrix[i][j + 1], i, j + 1));
             }
         }
-        return ans;
+        return water;
     }
 
     public static int trapRainWater2(int[][] heightMap) {

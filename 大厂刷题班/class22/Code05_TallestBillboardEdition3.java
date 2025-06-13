@@ -4,9 +4,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import static class22.ArrayPrinter.printArray;
+import static class22.PositiveRandomArrayGenerator.generatePositiveRandomArray;
+import static class22.Code05_TallestBillboardEdition1.tallestBillboard2;
 
 // 本题测试链接 : https://leetcode.com/problems/tallest-billboard/
-public class Code05_TallestBillboardEdition1 {
+public class Code05_TallestBillboardEdition3 {
 
     public static int tallestBillboard(int[] rods) {
         // key 集合对的某个差
@@ -38,59 +40,45 @@ public class Code05_TallestBillboardEdition1 {
         return dp.get(0);
     }
 
-    public static int tallestBillboard2(int[] rods) {
+    public static int p2(int[] rods) {
+        if (rods == null || rods.length < 2) {
+            return 0;
+        }
         int sum = 0;
-        // 计算所有钢筋的总长度
         for (int rod : rods) {
             sum += rod;
         }
-
-        // dp数组：dp[d]表示高度差为d时，公共高度（较短支架的高度）的最大值
         int[] dp = new int[sum + 1];
-        // 初始化所有状态为-1（不可达）
         Arrays.fill(dp, -1);
-        // 高度差为0时，公共高度初始化为0
         dp[0] = 0;
-
-        // 遍历每根钢筋
+        int[] cur = null;
         for (int rod : rods) {
-            // 复制当前状态，用于本轮的更新
-            int[] current = dp.clone();
-
-            // 遍历所有可能的高度差
+            cur = dp.clone();
             for (int d = 0; d <= sum; d++) {
-                // 跳过不可达状态
-                if (current[d] < 0) continue;
-
-                // 1. 将钢筋加到较长支架上
+                if (cur[d] == -1) continue;
+//                if (d + rod <= sum) {
+//                    dp[d + rod] = Math.max(cur[d + rod], cur[d]);
+//                }
+//                对比着看，按我的推理也是这里没有影响，我分析为什么，你设想一种情况，d+rod只会推高dp，后续的更新不会影响dp[d+rod]的值，所以cur[d+rod]一定等于dp[d+rod]的原值。如果cur[d]>dp[d+rod]推高了dp[d+rod]的值，循环进行下去dp[d+rod]也不会再被更新，只会推高dp[d2+rod]的值，一定是有d2>d的。
                 if (d + rod <= sum) {
-                    // 更新dp[d+rod]状态：公共高度保持不变
-                    dp[d + rod] = Math.max(dp[d + rod], current[d]);
-                }
-
-                // 2. 将钢筋加到较短支架上
+                    dp[d + rod] = Math.max(dp[d + rod], cur[d]);
+                }//                         ^^^^^^^^^^^
                 int diff = Math.abs(d - rod);
-                // 计算新的公共高度：原公共高度加上两者中较小值
-                int newPublic = current[d] + Math.min(d, rod);
-                // 更新状态
-                if (newPublic > dp[diff]) {
-                    dp[diff] = newPublic;
-                }
+                int newHeight = cur[d] + Math.min(d, rod);
+                dp[diff] = Math.max(dp[diff], newHeight);
             }
         }
-
-        // 返回高度差为0时的公共高度（即最大高度）
         return dp[0];
     }
 
-
     public static void main(String[] args) {
-//        int[] arr = generatePositiveRandomArray(5, 5);
-        int[] arr = {5, 1, 3, 5, 2};
+        int[] arr = generatePositiveRandomArray(1000, 1000);
+//        int[] arr = {5, 1, 3, 5, 2};
 //        int[] arr = {6, 9, 10, 6, 4, 10, 9, 9, 9, 9, 5, 1, 4, 7, 6, 5, 8, 8, 3, 8};
         printArray("arr", arr);
+        System.out.println(p2(arr));
+//        System.out.println(tallestBillboard(arr));
         System.out.println(tallestBillboard2(arr));
-        System.out.println(tallestBillboard(arr));
     }
 
 }

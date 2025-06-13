@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 // 本题测试链接 : https://leetcode.com/problems/maximum-sum-of-3-non-overlapping-subarrays/
 public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
 
-//	public static int[] maxSumArray1(int[] arr) {
+    //	public static int[] maxSumArray1(int[] arr) {
 //		int N = arr.length;
 //		int[] help = new int[N];
 //		// help[i] 子数组必须以i位置结尾的情况下，累加和最大是多少？
@@ -50,7 +50,6 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
 //		// help[i] - > dp[i]  0-..i  K
 //
 //	}
-
     public static int[] maxSumOfThreeSubarrays(int[] arr, int k) {
         if (arr == null || arr.length < k) {
             return null;
@@ -63,7 +62,7 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
         }
         range[0] = sum;
         int[] left = new int[n];
-        int max = sum;
+        int max = range[0];
         for (int i = k; i < n; i++) {
             sum = sum - arr[i - k] + arr[i];
             range[i - k + 1] = sum;
@@ -78,7 +77,7 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
         right[n - k] = n - k;
         for (int i = n - k - 1; i >= 0; i--) {
             right[i] = right[i + 1];
-            if (range[i] > max) {
+            if (range[i] >= max) {
                 max = range[i];
                 right[i] = i;
             }
@@ -87,7 +86,7 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
         int b = 0;
         int c = 0;
         max = 0;
-        for (int i = k; i < n - 2 * k + 1; i++) {
+        for (int i = k; i <= n - 2 * k; i++) {
             int part1 = range[left[i - 1]];
             int part2 = range[i];
             int part3 = range[right[i + k]];
@@ -120,7 +119,7 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
         int[] left = new int[n];
         for (int i = k; i < n; i++) {
             left[i] = left[i - 1];
-            if (range[i - k + 1] > max) {
+            if (range[i - k + 1] >= max) {
                 max = range[i - k + 1];
                 left[i] = i - k + 1;
             }
@@ -130,7 +129,7 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
         right[n - k] = n - k;
         for (int i = n - k - 1; i >= 0; i--) {
             right[i] = right[i + 1];
-            if (range[i] > max) {
+            if (range[i] >= max) {
                 max = range[i];
                 right[i] = i;
             }
@@ -163,7 +162,8 @@ public class Code01_MaximumSumof3NonOverlappingSubarraysEdition2 {
 
     public static void main(String[] args) {
 //        int[] arr = generatePositiveRandomArray(10, 10);
-        int[] arr = {4, 1, 6, 2, 6, 3, 5, 6, 1, 9};
+//        int[] arr = {4, 1, 6, 2, 6, 3, 5, 6, 1, 9};
+        int[] arr = {1, 2, 1, 2, 1, 2, 1, 2, 1};
         printArray("arr", arr);
         printArray("res", maxSumOfThreeSubarrays(arr, 2));
 //        printArray("res", maxSumOfThreeSubarrays2(arr, 2));
