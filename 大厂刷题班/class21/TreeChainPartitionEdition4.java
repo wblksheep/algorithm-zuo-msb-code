@@ -141,10 +141,10 @@ public class TreeChainPartitionEdition4 {
     }
 
     public static class SegmentTree {
+        private int n;
         private int[] arr;
         private int[] sum;
         private int[] lazy;
-        private int n;
 
         public SegmentTree(int[] origin) {
             n = origin.length;
@@ -213,12 +213,12 @@ public class TreeChainPartitionEdition4 {
                 lazy[rt] = 0;
             }
         }
-
     }
 
     public static void main(String[] args) {
         int[] father = {6, 4, 2, 5, 7, 7, 2, 2, 0, 2};
-        int[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+//        int[] values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int[] values = {9, 6, 1, 4, 5, 3, 8, 2, 10, 7};
         TreeChain tc = new TreeChain(father, values);
         printTC(tc.fa, "fa");
 //        [0, 7, 5, 0, 6, 8, 8, 3, 3, 1, 3]
@@ -239,6 +239,14 @@ public class TreeChainPartitionEdition4 {
         for (int i = 0; i < tc.tree.length; i++) {
             printTC(tc.tree[i], "tree[" + i + "]");
         }
+
+        System.out.println(tc.querySubtree(2));
+        tc.addSubtree(2, 1);
+        System.out.println(tc.querySubtree(2));
+
+        System.out.println(tc.queryChain(3, 4));
+        tc.addChain(3, 4, 1);
+        System.out.println(tc.queryChain(3, 4));
 //        tree[0]: []
 //        tree[1]: [9]
 //        tree[2]: []

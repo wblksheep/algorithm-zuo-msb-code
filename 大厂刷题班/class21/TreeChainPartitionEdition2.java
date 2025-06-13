@@ -9,17 +9,16 @@ public class TreeChainPartitionEdition2 {
         public int n;
         public int[] fa;
         public int[] val;
-        public int[][] tree;
         public int[] siz;
-        public int h;
-        public int[] top;
         public int[] son;
+        public int[] dep;
         public int[] dfn;
         public int[] tnw;
-        public int[] dep;
-        public SegmentTree seg;
-
+        public int[] top;
+        public int[][] tree;
+        public int h;
         public int tim = 0;
+        public SegmentTree seg;
 
         public TreeChain(int[] father, int[] values) {
             initTree(father, values);
@@ -29,14 +28,15 @@ public class TreeChainPartitionEdition2 {
             dfs2(h, h);
 
             seg = new SegmentTree(tnw);
+
             seg.build(1, n, 1);
         }
 
-        public void dfs2(int c, int t) {
+        private void dfs2(int c, int t) {
             dfn[c] = ++tim;
-            top[c] = t;
             tnw[tim] = val[c];
-            if (0 != son[c]) {
+            top[c] = t;
+            if (son[c] != 0) {
                 dfs2(son[c], t);
                 for (int s : tree[c]) {
                     if (s != son[c]) {
@@ -46,17 +46,17 @@ public class TreeChainPartitionEdition2 {
             }
         }
 
-        public void dfs1(int c, int f) {
+        private void dfs1(int c, int f) {
             fa[c] = f;
-            dep[c] = dep[f] + 1;
             siz[c] = 1;
-            int maxSize = -1;
+            dep[c] = dep[f] + 1;
+            int maxSize = 0;
             for (int s : tree[c]) {
                 dfs1(s, c);
                 siz[c] += siz[s];
                 if (siz[s] > maxSize) {
-                    son[c] = s;
                     maxSize = siz[s];
+                    son[c] = s;
                 }
             }
         }
@@ -65,37 +65,35 @@ public class TreeChainPartitionEdition2 {
             n = father.length + 1;
             fa = new int[n];
             val = new int[n];
-            tree = new int[n][];
             siz = new int[n];
-            top = new int[n];
             son = new int[n];
-            dfn = new int[n];
             dep = new int[n];
-            tnw = new int[n--];
-            int[] cnt = new int[n];
+            dfn = new int[n];
+            tnw = new int[n];
+            top = new int[n];
+            tree = new int[n--][];
+            int[] cnts = new int[n];
             for (int i = 0; i < n; i++) {
                 if (i == father[i]) {
                     h = i + 1;
                 } else {
-                    cnt[father[i]]++;
+                    cnts[father[i]]++;
                 }
                 val[i + 1] = values[i];
             }
-            tree[0] = new int[0];
             for (int i = 0; i < n; i++) {
-                tree[i + 1] = new int[cnt[i]];
+                tree[i + 1] = new int[cnts[i]];
             }
             for (int i = 0; i < n; i++) {
-                if (h != i + 1) {
-                    tree[father[i] + 1][--cnt[father[i]]] = i + 1;
+                if (i + 1 != h) {
+                    tree[father[i] + 1][--cnts[father[i]]] = i + 1;
                 }
             }
-
         }
 
-        public void addSubtree(int head, int value) {
+        public void addSubtree(int head, int v) {
             head++;
-            seg.add(dfn[head], dfn[head] + siz[head] - 1, value, 1, n, 1);
+            seg.add(dfn[head], dfn[head] + siz[head] - 1, v, 1, n, 1);
         }
 
         public long querySubtree(int head) {
@@ -107,17 +105,19 @@ public class TreeChainPartitionEdition2 {
             a++;
             b++;
             while (top[a] != top[b]) {
-                if (dep[top[a]] < dep[top[b]]) {
-                    seg.add(dfn[top[b]], dfn[b], v, 1, n, 1);
-                    b = fa[top[b]];
-                } else {
+                if (dep[top[a]] > dep[top[b]]) {
                     seg.add(dfn[top[a]], dfn[a], v, 1, n, 1);
                     a = fa[top[a]];
+                } else {
+                    seg.add(dfn[top[b]], dfn[b], v, 1, n, 1);
+                    b = fa[top[b]];
                 }
             }
-            int big = dep[a] > dep[b] ? a : b;
-            int small = big == a ? b : a;
-            seg.add(dfn[small], dfn[big], v, 1, n, 1);
+            if (dep[a] > dep[b]) {
+                seg.add(dfn[b], dfn[a], v, 1, n, 1);
+            } else {
+                seg.add(dfn[a], dfn[b], v, 1, n, 1);
+            }
         }
 
         public long queryChain(int a, int b) {
@@ -125,47 +125,37 @@ public class TreeChainPartitionEdition2 {
             b++;
             long ans = 0;
             while (top[a] != top[b]) {
-                if (dep[top[a]] < dep[top[b]]) {
-                    ans += seg.query(dfn[top[b]], dfn[b], 1, n, 1);
-                    b = fa[top[b]];
-                } else {
+                if (dep[top[a]] > dep[top[b]]) {
                     ans += seg.query(dfn[top[a]], dfn[a], 1, n, 1);
                     a = fa[top[a]];
+                } else {
+                    ans += seg.query(dfn[top[b]], dfn[b], 1, n, 1);
+                    b = fa[top[b]];
                 }
             }
-            int big = dep[a] > dep[b] ? a : b;
-            int small = big == a ? b : a;
-            ans += seg.query(dfn[small], dfn[big], 1, n, 1);
+            if (dep[a] > dep[b]) {
+                ans += seg.query(dfn[b], dfn[a], 1, n, 1);
+            } else {
+                ans += seg.query(dfn[a], dfn[b], 1, n, 1);
+            }
             return ans;
         }
     }
 
-
     public static class SegmentTree {
-        public int MAXN;
-        public int[] arr;
-        public int[] sum;
-        public int[] lazy;
+        private int n;
+        private int[] arr;
+        private int[] sum;
+        private int[] lazy;
 
         public SegmentTree(int[] origin) {
-            MAXN = origin.length;
-            arr = origin;
-            sum = new int[MAXN << 2];
-            lazy = new int[MAXN << 2];
-        }
-
-        public void pushUp(int rt) {
-            sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
-        }
-
-        public void pushDown(int rt, int ln, int rn) {
-            if (lazy[rt] != 0) {
-                lazy[rt << 1] += lazy[rt];
-                sum[rt << 1] += lazy[rt] * ln;
-                lazy[rt << 1 | 1] += lazy[rt];
-                sum[rt << 1 | 1] += lazy[rt] * rn;
-                lazy[rt] = 0;
+            n = origin.length;
+            arr = new int[n];
+            for (int i = 1; i < n; i++) {
+                arr[i] = origin[i];
             }
+            sum = new int[n << 2];
+            lazy = new int[n << 2];
         }
 
         public void build(int l, int r, int rt) {
@@ -179,6 +169,10 @@ public class TreeChainPartitionEdition2 {
             pushUp(rt);
         }
 
+        private void pushUp(int rt) {
+            sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
+        }
+
         public void add(int L, int R, int C, int l, int r, int rt) {
             if (L <= l && r <= R) {
                 sum[rt] += C * (r - l + 1);
@@ -186,7 +180,7 @@ public class TreeChainPartitionEdition2 {
                 return;
             }
             int mid = (l + r) >> 1;
-            pushDown(rt, mid - l + 1, r - mid);
+            pushDown(mid - l + 1, r - mid, rt);
             if (L <= mid) {
                 add(L, R, C, l, mid, rt << 1);
             }
@@ -196,13 +190,13 @@ public class TreeChainPartitionEdition2 {
             pushUp(rt);
         }
 
-        public int query(int L, int R, int l, int r, int rt) {
+        public long query(int L, int R, int l, int r, int rt) {
             if (L <= l && r <= R) {
                 return sum[rt];
             }
             int mid = (l + r) >> 1;
-            pushDown(rt, mid - l + 1, r - mid);
-            int ans = 0;
+            pushDown(mid - l + 1, r - mid, rt);
+            long ans = 0;
             if (L <= mid) {
                 ans += query(L, R, l, mid, rt << 1);
             }
@@ -212,7 +206,17 @@ public class TreeChainPartitionEdition2 {
             return ans;
         }
 
+        private void pushDown(int ln, int rn, int rt) {
+            if (lazy[rt] != 0) {
+                sum[rt << 1] += lazy[rt] * ln;
+                lazy[rt << 1] += lazy[rt];
+                sum[rt << 1 | 1] += lazy[rt] * rn;
+                lazy[rt << 1 | 1] += lazy[rt];
+                lazy[rt] = 0;
+            }
+        }
     }
+
 
     // 为了测试，这个结构是暴力但正确的方法
     public static class Right {

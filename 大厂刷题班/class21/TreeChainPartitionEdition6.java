@@ -1,8 +1,6 @@
 package class21;
 
-import java.util.TreeSet;
-
-public class TreeChainPartitionEdition5 {
+public class TreeChainPartitionEdition6 {
 
     public static class TreeChain {
         public int n;
@@ -101,6 +99,22 @@ public class TreeChainPartitionEdition5 {
         }
 
         public void addChain(int a, int b, int v) {
+//            a++;
+//            b++;
+//            while (top[a] != top[b]) {
+//                if (dep[top[a]] > dep[top[b]]) {
+//                    seg.add(dfn[top[a]], dfn[a], v, 1, n, 1);
+//                    a = fa[top[a]];
+//                } else {
+//                    seg.add(dfn[top[b]], dfn[b], v, 1, n, 1);
+//                    b = fa[top[b]];
+//                }
+//            }
+//            if (dep[a] > dep[b]) {
+//                seg.add(dfn[b], dfn[a], v, 1, n, 1);
+//            } else {
+//                seg.add(dfn[a], dfn[b], v, 1, n, 1);
+//            }
             a++;
             b++;
             while (top[a] != top[b]) {
@@ -120,9 +134,27 @@ public class TreeChainPartitionEdition5 {
         }
 
         public long queryChain(int a, int b) {
+//            a++;
+//            b++;
+//            long ans = 0;
+//            while (top[a] != top[b]) {
+//                if (dep[top[a]] > dep[top[b]]) {
+//                    ans += seg.query(dfn[top[a]], dfn[a], 1, n, 1);
+//                    a = fa[top[a]];
+//                } else {
+//                    ans += seg.query(dfn[top[b]], dfn[b], 1, n, 1);
+//                    b = fa[top[b]];
+//                }
+//            }
+//            if (dep[a] > dep[b]) {
+//                ans += seg.query(dfn[b], dfn[a], 1, n, 1);
+//            } else {
+//                ans += seg.query(dfn[a], dfn[b], 1, n, 1);
+//            }
+//            return ans;
             a++;
             b++;
-            long ans = 0;
+            int ans = 0;
             while (top[a] != top[b]) {
                 if (dep[top[a]] > dep[top[b]]) {
                     ans += seg.query(dfn[top[a]], dfn[a], 1, n, 1);
