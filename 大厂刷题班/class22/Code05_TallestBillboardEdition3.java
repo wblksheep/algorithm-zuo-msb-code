@@ -44,9 +44,10 @@ public class Code05_TallestBillboardEdition3 {
         if (rods == null || rods.length < 2) {
             return 0;
         }
+        int n = rods.length;
         int sum = 0;
-        for (int rod : rods) {
-            sum += rod;
+        for (int i = 0; i < n; i++) {
+            sum += rods[i];
         }
         int[] dp = new int[sum + 1];
         Arrays.fill(dp, -1);
@@ -61,11 +62,11 @@ public class Code05_TallestBillboardEdition3 {
 //                }
 //                对比着看，按我的推理也是这里没有影响，我分析为什么，你设想一种情况，d+rod只会推高dp，后续的更新不会影响dp[d+rod]的值，所以cur[d+rod]一定等于dp[d+rod]的原值。如果cur[d]>dp[d+rod]推高了dp[d+rod]的值，循环进行下去dp[d+rod]也不会再被更新，只会推高dp[d2+rod]的值，一定是有d2>d的。
                 if (d + rod <= sum) {
-                    dp[d + rod] = Math.max(dp[d + rod], cur[d]);
+                    dp[d + rod] = Math.max(cur[d + rod], cur[d]);
                 }//                         ^^^^^^^^^^^
                 int diff = Math.abs(d - rod);
                 int newHeight = cur[d] + Math.min(d, rod);
-                dp[diff] = Math.max(dp[diff], newHeight);
+                dp[diff] = Math.max(cur[diff], newHeight);
             }
         }
         return dp[0];

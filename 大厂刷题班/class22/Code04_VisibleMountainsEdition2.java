@@ -31,11 +31,11 @@ public class Code04_VisibleMountainsEdition2 {
         int index = nextIndex(maxIndex, n);
         int ans = 0;
         while (index != maxIndex) {
-            while (arr[index] > stack.peek().value) {
+            while (stack.peek().value < arr[index]) {
                 int k = stack.pop().times;
                 ans += 2 * k + getInternal(k);
             }
-            if (arr[index] == stack.peek().value) {
+            if (stack.peek().value == arr[index]) {
                 stack.peek().times++;
             } else {
                 stack.push(new Record(arr[index]));
@@ -164,6 +164,7 @@ public class Code04_VisibleMountainsEdition2 {
         System.out.println("test begin!");
         for (int i = 0; i < testTimes; i++) {
             int[] arr = getRandomArray(size, max);
+//            int[] arr = {4, 2, 6, 6};
             if (rightWay(arr) != getVisibleNum(arr)) {
                 printArray(arr);
                 System.out.println(rightWay(arr));
