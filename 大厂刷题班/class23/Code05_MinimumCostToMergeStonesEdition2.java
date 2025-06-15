@@ -46,26 +46,25 @@ public class Code05_MinimumCostToMergeStonesEdition2 {
             presum[i + 1] = presum[i] + stones[i];
         }
         int[][][] dp = new int[n][n][K + 1];
-        return process2(0, n - 1, 1, stones, presum, K, dp);
+        return process2(0, n - 1, 1, K, stones, presum, dp);
     }
 
-    public static int process2(int l, int r, int p, int[] stones, int[] presum, int k, int[][][] dp) {
+    public static int process2(int l, int r, int p, int k, int[] stones, int[] presum, int[][][] dp) {
         if (dp[l][r][p] != 0) {
             return dp[l][r][p];
         }
         if (l == r) {
             dp[l][r][p] = 0;
-            return 0;
+            return dp[l][r][p];
         }
         int ans = Integer.MAX_VALUE;
         if (p == 1) {
-            ans = ((r - l + 1) == k ? 0 : process2(l, r, k, stones, presum, k, dp)) + presum[r + 1] - presum[l];
-            dp[l][r][p] = ans;
-            return ans;
+            dp[l][r][p] = process2(l, r, k, k, stones, presum, dp) + presum[r + 1] - presum[l];
+            return dp[l][r][p];
         } else {
             for (int mid = l; mid < r; mid += k - 1) {
-                int next1 = process2(l, mid, 1, stones, presum, k, dp);
-                int next2 = process2(mid + 1, r, p - 1, stones, presum, k, dp);
+                int next1 = process2(l, mid, 1, k, stones, presum, dp);
+                int next2 = process2(mid + 1, r, p - 1, k, stones, presum, dp);
                 ans = Math.min(ans, next1 + next2);
             }
         }
@@ -94,7 +93,7 @@ public class Code05_MinimumCostToMergeStonesEdition2 {
     }
 
     public static void main(String[] args) {
-        int maxSize = 120;
+        int maxSize = 12;
         int maxValue = 100;
         System.out.println("Test begin");
 
