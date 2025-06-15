@@ -66,19 +66,20 @@ public class Code05_TallestBillboardEdition3 {
                 }//                         ^^^^^^^^^^^
                 int diff = Math.abs(d - rod);
                 int newHeight = cur[d] + Math.min(d, rod);
-                dp[diff] = Math.max(cur[diff], newHeight);
+                dp[diff] = Math.max(dp[diff], newHeight);
             }
         }
         return dp[0];
     }
 
     public static void main(String[] args) {
-        int[] arr = generatePositiveRandomArray(1000, 1000);
+//        int[] arr = generatePositiveRandomArray(5, 5);
+        int[] arr = {1, 5, 1, 2, 4};
 //        int[] arr = {5, 1, 3, 5, 2};
 //        int[] arr = {6, 9, 10, 6, 4, 10, 9, 9, 9, 9, 5, 1, 4, 7, 6, 5, 8, 8, 3, 8};
         printArray("arr", arr);
         System.out.println(p2(arr));
-//        System.out.println(tallestBillboard(arr));
+        System.out.println(tallestBillboard(arr));
         System.out.println(tallestBillboard2(arr));
     }
 

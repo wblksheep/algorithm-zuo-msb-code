@@ -131,7 +131,7 @@ public class Code03_TrappingRainWaterIIEdition2 {
 
 
     public static void main(String[] args) {
-        int[][] matrix = generate(25, 25, 25);
+//        int[][] matrix = generate(5, 5, 10);
 //        int[][] matrix = {
 //                {3, 1, 2, 2, 1},
 //                {2, 5, 2, 4, 4},
@@ -139,6 +139,13 @@ public class Code03_TrappingRainWaterIIEdition2 {
 //                {5, 1, 1, 5, 5},
 //                {3, 4, 4, 2, 1}
 //        };
+        int[][] matrix = {
+                {8, 4, 10, 2, 7},
+                {9, 3, 9, 8, 5},
+                {1, 6, 1, 4, 4},
+                {5, 1, 10, 10, 8},
+                {4, 6, 5, 10, 4}
+        };
         print(matrix);
         System.out.println(trapRainWater(matrix));
         System.out.println(trapRainWater2(matrix));
