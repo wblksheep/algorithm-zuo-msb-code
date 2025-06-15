@@ -1,6 +1,8 @@
 package class23;
 
-public class Code05_MinimumCostToMergeStonesEdition2 {
+import java.util.Arrays;
+
+public class Code05_MinimumCostToMergeStonesEdition3 {
 
     public static int mergeStones1(int[] stones, int K) {
         int n = stones.length;
@@ -36,41 +38,63 @@ public class Code05_MinimumCostToMergeStonesEdition2 {
         return ans;
     }
 
-    public static int mergeStones2(int[] stones, int K) {
+    public static int[][] memo;
+    public static int[] s;
+    public static int K;
+    public static int mergeStones2(int[] stones, int k) {
         int n = stones.length;
-        if ((n - 1) % (K - 1) > 0) {
+        if ((n - 1) % (k - 1) > 0) {
             return -1;
         }
-        int[] presum = new int[n + 1];
+        s = new int[n + 1];
         for (int i = 0; i < n; i++) {
-            presum[i + 1] = presum[i] + stones[i];
+            s[i + 1] = s[i] + stones[i];
         }
-        int[][][] dp = new int[n][n][K + 1];
-        return process2(0, n - 1, 1, stones, presum, K, dp);
+        K = k;
+        memo = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(memo[i], -1);
+
+        }
+        return dfs(0, n - 1);
+
+        // int n = stones.length;
+        // if ((n - 1) % (k - 1) > 0) return -1;
+
+        // int[] s = new int[n + 1];
+        // for (int i = 0; i < n; i++) {
+        //     s[i + 1] = s[i] + stones[i];
+        // }
+
+        // int[][] dp = new int[n][n];
+        // for (int i = n - 1; i >= 0; i--) {
+        //     for (int j = i + 1; j < n; j++) {
+        //         dp[i][j] = Integer.MAX_VALUE;
+        //         for (int m = i; m < j; m += k - 1) {
+        //             dp[i][j] = Math.min(dp[i][j], dp[i][m] + dp[m + 1][j]);
+        //         }
+        //         if ((j - i) % (k - 1) == 0) {
+        //             dp[i][j] += s[j + 1] - s[i];
+        //         }
+        //     }
+        // }
+        // return dp[0][n - 1];
     }
 
-    public static int process2(int l, int r, int p, int[] stones, int[] presum, int k, int[][][] dp) {
-        if (dp[l][r][p] != 0) {
-            return dp[l][r][p];
+    public static int dfs(int i, int j) {
+        if (i == j) return 0;
+        if (memo[i][j] != -1) {
+            return memo[i][j];
         }
-        if (l == r) {
-            dp[l][r][p] = 0;
-            return 0;
+
+        int res = Integer.MAX_VALUE;
+        for (int m = i; m < j; m += K - 1) {
+            res = Math.min(res, dfs(i, m) + dfs(m + 1, j));
         }
-        int ans = Integer.MAX_VALUE;
-        if (p == 1) {
-            ans = ((r - l + 1) == k ? 0 : process2(l, r, k, stones, presum, k, dp)) + presum[r + 1] - presum[l];
-            dp[l][r][p] = ans;
-            return ans;
-        } else {
-            for (int mid = l; mid < r; mid += k - 1) {
-                int next1 = process2(l, mid, 1, stones, presum, k, dp);
-                int next2 = process2(mid + 1, r, p - 1, stones, presum, k, dp);
-                ans = Math.min(ans, next1 + next2);
-            }
+        if ((j - i) % (K - 1) == 0) {
+            res += s[j + 1] - s[i];
         }
-        dp[l][r][p] = ans;
-        return ans;
+        return memo[i][j] = res;
     }
 
     // for test
