@@ -147,7 +147,8 @@ public class Code03_PalindromePairs2Edition2 {
     }
 
     public static void main(String[] args) {
-        String[] words = {"abcd", "dcba", "", "aa"};
+//        String[] words = {"abcd", "dcba", "", "aa"};
+        String[] words = {"aab", "aa", "a", "b", "ba", "", "baa"};
 //        String[] words = {""};
         List<List<Integer>> res = palindromePairs(words);
         for (List<Integer> list : res) {

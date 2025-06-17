@@ -1,38 +1,38 @@
 package class23;
 
+import class05.Hash;
+
 import java.util.*;
 import java.util.Map.Entry;
 
 public class Code04_FindKMajorityEdition2 {
 
     public static void printHalfMajor(int[] arr) {
-        int cand = 0;
-        int HP = 0;
-        for (int i = 0; i < arr.length; i++) {
+        if (arr == null || arr.length == 0) {
+            System.out.println("No such major");
+            return;
+        }
+        int cand = arr[0];
+        int HP = 1;
+        for (int i = 1; i < arr.length; i++) {
             if (HP == 0) {
                 cand = arr[i];
                 HP = 1;
-            } else if (arr[i] == cand) {
+            } else if (cand == arr[i]) {
                 HP++;
             } else {
                 HP--;
             }
         }
-        if (HP == 0) {
-            System.out.println("no such number.");
-            return;
-        }
-        HP = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == cand) {
-                HP++;
+        if (HP != 0) {
+            HP = 0;
+            for (int i = 0; i < arr.length; i++) {
+                if (arr[i] == cand) {
+                    HP++;
+                }
             }
         }
-        if (HP > arr.length / 2) {
-            System.out.println(cand);
-        } else {
-            System.out.println("no such number.");
-        }
+        System.out.println(HP > arr.length / 2 ? cand : "No such major");
     }
 
     public static void printKMajor(int[] arr, int K) {
@@ -40,9 +40,13 @@ public class Code04_FindKMajorityEdition2 {
             System.out.println("the value of K is invalid.");
             return;
         }
+        if (arr == null || arr.length < K) {
+            System.out.println("No such major");
+            return;
+        }
         // 攒候选，cands，候选表，最多K-1条记录！ > N / K次的数字，最多有K-1个
-        HashMap<Integer, Integer> cands = new HashMap<Integer, Integer>();
-        for (int i = 0; i != arr.length; i++) {
+        HashMap<Integer, Integer> cands = new HashMap<>();
+        for (int i = 0; i < arr.length; i++) {
             if (cands.containsKey(arr[i])) {
                 cands.put(arr[i], cands.get(arr[i]) + 1);
             } else { // arr[i] 不是候选
@@ -55,17 +59,15 @@ public class Code04_FindKMajorityEdition2 {
         }
         // 所有可能的候选，都在cands表中！遍历一遍arr，每个候选收集真实次数
 
-
-        HashMap<Integer, Integer> reals = getReals(arr, cands);
-        boolean hasPrint = false;
-        for (Entry<Integer, Integer> set : cands.entrySet()) {
-            Integer key = set.getKey();
-            if (reals.get(key) > arr.length / K) {
-                hasPrint = true;
-                System.out.print(key + " ");
+        HashMap<Integer, Integer> reals = getReals(cands, arr);
+        boolean printCands = false;
+        for (Entry<Integer, Integer> entry : reals.entrySet()) {
+            if (entry.getValue() > arr.length / K) {
+                printCands = true;
+                System.out.print(entry.getKey() + " ");
             }
         }
-        System.out.println(hasPrint ? "" : "no such number.");
+        System.out.println(printCands ? "" : "No such major");
     }
 
     public static void allCandsMinusOne(HashMap<Integer, Integer> map) {
@@ -81,17 +83,14 @@ public class Code04_FindKMajorityEdition2 {
         }
     }
 
-    public static HashMap<Integer, Integer> getReals(int[] arr,
-                                                     HashMap<Integer, Integer> cands) {
-        HashMap<Integer, Integer> reals = new HashMap<Integer, Integer>();
-        for (int i = 0; i != arr.length; i++) {
-            int curNum = arr[i];
-            if (cands.containsKey(curNum)) {
-                if (reals.containsKey(curNum)) {
-                    reals.put(curNum, reals.get(curNum) + 1);
-                } else {
-                    reals.put(curNum, 1);
-                }
+    public static HashMap<Integer, Integer> getReals(HashMap<Integer, Integer> cands, int[] arr) {
+        HashMap<Integer, Integer> reals = new HashMap<>();
+        for (Entry<Integer, Integer> entry : cands.entrySet()) {
+            reals.put(entry.getKey(), 0);
+        }
+        for (int i = 0; i < arr.length; i++) {
+            if (reals.containsKey(arr[i])) {
+                reals.put(arr[i], reals.get(arr[i]) + 1);
             }
         }
         return reals;
@@ -99,6 +98,7 @@ public class Code04_FindKMajorityEdition2 {
 
     public static void main(String[] args) {
         int[] arr = {1, 2, 3, 1, 1, 2, 1};
+//        int[] arr = {};
         printHalfMajor(arr);
         int K = 4;
         printKMajor(arr, K);

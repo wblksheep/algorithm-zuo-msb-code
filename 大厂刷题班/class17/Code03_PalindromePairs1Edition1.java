@@ -96,7 +96,8 @@ public class Code03_PalindromePairs1Edition1 {
     }
 
     public static void main(String[] args) {
-        String[] words = {"abcd", "dcba", "", "aa"};
+//        String[] words = {"abcd", "dcba", "", "aa"};
+        String[] words = {"aab", "aa", "a", "b", "ba", "", "baa"};
         List<List<Integer>> res = palindromePairs(words);
         for (List<Integer> list : res) {
             System.out.println("[ " + list.get(0) + ", " + list.get(1) + "]");

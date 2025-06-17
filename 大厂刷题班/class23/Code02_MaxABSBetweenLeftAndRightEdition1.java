@@ -39,11 +39,12 @@ public class Code02_MaxABSBetweenLeftAndRightEdition1 {
     }
 
     public static int maxABS3(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return 0;
+        }
         int max = arr[0];
         for (int i = 1; i < arr.length; i++) {
-            if (arr[i] > max) {
-                max = arr[i];
-            }
+            max = Math.max(max, arr[i]);
         }
         return max - Math.min(arr[0], arr[arr.length - 1]);
     }

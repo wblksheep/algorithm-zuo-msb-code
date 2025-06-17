@@ -22,23 +22,12 @@ public class Code01_SegmentTreeEdition3 {
             update = new boolean[n << 2];
         }
 
-        public void build(int l, int r, int rt) {
-            if (l == r) {
-                sum[rt] = arr[l];
-                return;
-            }
-            int m = (l + r) >> 1;
-            build(l, m, rt << 1);
-            build(m + 1, r, rt << 1 | 1);
-            pushUp(rt);
-        }
-
         public void update(int L, int R, int C, int l, int r, int rt) {
             if (L <= l && r <= R) {
                 sum[rt] = C * (r - l + 1);
                 lazy[rt] = 0;
-                change[rt] = C;
                 update[rt] = true;
+                change[rt] = C;
                 return;
             }
             int mid = (l + r) >> 1;
@@ -89,12 +78,12 @@ public class Code01_SegmentTreeEdition3 {
             if (update[rt]) {
                 sum[rt << 1] = change[rt] * ln;
                 lazy[rt << 1] = 0;
-                change[rt << 1] = change[rt];
                 update[rt << 1] = true;
+                change[rt << 1] = change[rt];
                 sum[rt << 1 | 1] = change[rt] * rn;
                 lazy[rt << 1 | 1] = 0;
-                change[rt << 1 | 1] = change[rt];
                 update[rt << 1 | 1] = true;
+                change[rt << 1 | 1] = change[rt];
                 update[rt] = false;
             }
             if (lazy[rt] != 0) {
@@ -104,6 +93,17 @@ public class Code01_SegmentTreeEdition3 {
                 lazy[rt << 1 | 1] += lazy[rt];
                 lazy[rt] = 0;
             }
+        }
+
+        public void build(int l, int r, int rt) {
+            if (l == r) {
+                sum[rt] = arr[l];
+                return;
+            }
+            int mid = (l + r) >> 1;
+            build(l, mid, rt << 1);
+            build(mid + 1, r, rt << 1 | 1);
+            pushUp(rt);
         }
 
         private void pushUp(int rt) {

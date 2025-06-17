@@ -2,6 +2,9 @@ package class23;
 
 import java.util.Arrays;
 
+
+import static class23.ArrayPrinter.printArray;
+
 public class Code05_MinimumCostToMergeStonesEdition3 {
 
     public static int mergeStones1(int[] stones, int k) {
@@ -46,6 +49,7 @@ public class Code05_MinimumCostToMergeStonesEdition3 {
     public static int[][] memo;
     public static int[] s;
     public static int K;
+
     public static int mergeStones2(int[] stones, int k) {
 //        int n = stones.length;
 //        if ((n - 1) % (k - 1) > 0) {
@@ -63,27 +67,27 @@ public class Code05_MinimumCostToMergeStonesEdition3 {
 //        }
 //        return dfs(0, n - 1);
 
-         int n = stones.length;
-         if ((n - 1) % (k - 1) > 0) return -1;
+        int n = stones.length;
+        if ((n - 1) % (k - 1) > 0) return -1;
 
-         int[] s = new int[n + 1];
-         for (int i = 0; i < n; i++) {
-             s[i + 1] = s[i] + stones[i];
-         }
+        int[] s = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            s[i + 1] = s[i] + stones[i];
+        }
 
-         int[][] dp = new int[n][n];
-         for (int i = n - 1; i >= 0; i--) {
-             for (int j = i + 1; j < n; j++) {
-                 dp[i][j] = Integer.MAX_VALUE;
-                 for (int m = i; m < j; m += k - 1) {
-                     dp[i][j] = Math.min(dp[i][j], dp[i][m] + dp[m + 1][j]);
-                 }
-                 if ((j - i) % (k - 1) == 0) {
-                     dp[i][j] += s[j + 1] - s[i];
-                 }
-             }
-         }
-         return dp[0][n - 1];
+        int[][] dp = new int[n][n];
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = i + 1; j < n; j++) {
+                dp[i][j] = Integer.MAX_VALUE;
+                for (int m = i; m < j; m += k - 1) {
+                    dp[i][j] = Math.min(dp[i][j], dp[i][m] + dp[m + 1][j]);
+                }
+                if ((j - i) % (k - 1) == 0) {
+                    dp[i][j] += s[j + 1] - s[i];
+                }
+            }
+        }
+        return dp[0][n - 1];
     }
 
     public static int dfs(int i, int j) {
@@ -111,20 +115,20 @@ public class Code05_MinimumCostToMergeStonesEdition3 {
         return arr;
     }
 
-    // for test
-    public static void printArray(int[] arr) {
-        if (arr == null) {
-            return;
-        }
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
-        }
-        System.out.println();
-    }
+//    // for test
+//    public static void printArray(int[] arr) {
+//        if (arr == null) {
+//            return;
+//        }
+//        for (int i = 0; i < arr.length; i++) {
+//            System.out.print(arr[i] + " ");
+//        }
+//        System.out.println();
+//    }
 
     public static void main(String[] args) {
-        int maxSize = 120;
-        int maxValue = 100;
+        int maxSize = 20;
+        int maxValue = 5;
         System.out.println("Test begin");
 
         // 初始化时间统计变量
@@ -154,7 +158,7 @@ public class Code05_MinimumCostToMergeStonesEdition3 {
                 errorCount++;
                 System.out.println("Error! Test case #" + testCount);
                 System.out.println("Array: ");
-                printArray(arr);
+                printArray("arr", arr);
                 System.out.println("K = " + K);
                 System.out.println("mergeStones1 result: " + ans1);
                 System.out.println("mergeStones2 result: " + ans2);

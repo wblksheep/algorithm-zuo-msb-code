@@ -80,7 +80,7 @@ public class Code01_LCATarjanAndTreeChainPartitionEdition1 {
             }
         }
         int[] ans = new int[M];
-        Code01_LCATarjanAndTreeChainPartition.UnionFind uf = new Code01_LCATarjanAndTreeChainPartition.UnionFind(N);
+        UnionFind uf = new UnionFind(N);
         process(h, mt, mq, mi, uf, ans);
         for (int i = 0; i < M; i++) {
             if (queries[i][0] == queries[i][1]) {
@@ -95,7 +95,7 @@ public class Code01_LCATarjanAndTreeChainPartitionEdition1 {
     // mq问题列表 head有哪些问题 mq[head] = {x,y,z} (head，x) (head，y) (head z)
     // mi得到问题的答案，填在ans的什么地方 {6,12,34}
     // uf 并查集
-    public static void process(int head, int[][] mt, int[][] mq, int[][] mi, Code01_LCATarjanAndTreeChainPartition.UnionFind uf, int[] ans) {
+    public static void process(int head, int[][] mt, int[][] mq, int[][] mi, UnionFind uf, int[] ans) {
         for (int next : mt[head]) { // head有哪些孩子，都遍历去吧！
             process(next, mt, mq, mi, uf, ans);
             uf.union(head, next);
@@ -337,14 +337,14 @@ public class Code01_LCATarjanAndTreeChainPartitionEdition1 {
         for (int i = 0; i < testTime; i++) {
             int size = (int) (Math.random() * N) + 1;
             int ques = (int) (Math.random() * M) + 1;
-            int[] father = generateFatherArray(size);
-            int[][] queries = generateQueries(ques, size);
-//            int[] father = {0, 0, 0, 1, 1, 2, 2, 5, 5, 6};
-//            int[][] queries = {
-//                    {9, 6},
-//                    {6, 1},
-//                    {6, 2}
-//            };
+//            int[] father = generateFatherArray(size);
+//            int[][] queries = generateQueries(ques, size);
+            int[] father = {0, 0, 0, 1, 1, 2, 2, 5, 5, 6};
+            int[][] queries = {
+                    {9, 6},
+                    {6, 1},
+                    {6, 2}
+            };
             int[] ans1 = query1(father, queries);
             int[] ans2 = query2(father, queries);
             int[] ans3 = query3(father, queries);
