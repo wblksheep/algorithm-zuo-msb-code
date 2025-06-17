@@ -106,3 +106,42 @@ public class Code05_MinimumCostToMergeStonesEdition2 {
         for (int testTime = 0; testTime < 100000; testTime++) {
             int[] arr = generateRandomArray(maxSize, maxValue);
             int K = (int) (Math.random() * 7) + 2;
+
+            // 测试 mergeStones1 耗时
+            long start1 = System.nanoTime();
+            int ans1 = mergeStones1(arr, K);
+            long end1 = System.nanoTime();
+            totalTimeMergeStones1 += (end1 - start1);
+
+            // 测试 mergeStones2 耗时
+            long start2 = System.nanoTime();
+            int ans2 = mergeStones2(arr, K);
+            long end2 = System.nanoTime();
+            totalTimeMergeStones2 += (end2 - start2);
+
+            testCount++;
+            if (ans1 != ans2) {
+                errorCount++;
+                System.out.println("Error! Test case #" + testCount);
+                System.out.println("Array: ");
+                printArray(arr);
+                System.out.println("K = " + K);
+                System.out.println("mergeStones1 result: " + ans1);
+                System.out.println("mergeStones2 result: " + ans2);
+            }
+        }
+
+        // 输出时间统计结果
+        System.out.println("\nTime Statistics:");
+        System.out.println("Total tests: " + testCount);
+        System.out.println("Errors: " + errorCount);
+        System.out.println("Total time for mergeStones1: " + totalTimeMergeStones1 / 1_000_000 + " ms");
+        System.out.println("Average time per test for mergeStones1: " +
+                (totalTimeMergeStones1 / testCount) / 1_000.0 + " μs");
+        System.out.println("Total time for mergeStones2: " + totalTimeMergeStones2 / 1_000_000 + " ms");
+        System.out.println("Average time per test for mergeStones2: " +
+                (totalTimeMergeStones2 / testCount) / 1_000.0 + " μs");
+
+        System.out.println("Test end");
+    }
+}
