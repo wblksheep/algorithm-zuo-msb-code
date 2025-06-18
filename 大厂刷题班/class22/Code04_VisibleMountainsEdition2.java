@@ -158,13 +158,13 @@ public class Code04_VisibleMountainsEdition2 {
     }
 
     public static void main(String[] args) {
-        int size = 10;
+        int size = 20;
         int max = 10;
         int testTimes = 3000000;
         System.out.println("test begin!");
         for (int i = 0; i < testTimes; i++) {
-            int[] arr = getRandomArray(size, max);
-//            int[] arr = {4, 2, 6, 6};
+//            int[] arr = getRandomArray(size, max);
+            int[] arr = {1, 1, 0, 9, 1, 5, 0, 1, 7, 7, 4, 2, 2, 1, 5, 6, 7, 6};
             if (rightWay(arr) != getVisibleNum(arr)) {
                 printArray(arr);
                 System.out.println(rightWay(arr));

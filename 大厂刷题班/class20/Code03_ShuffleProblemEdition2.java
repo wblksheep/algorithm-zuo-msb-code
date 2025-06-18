@@ -147,7 +147,8 @@ public class Code03_ShuffleProblemEdition2 {
 //                break;
 //            }
 //        }
-        int[] arr = {49, 65, 71, 18, 39, 4, 48, 75};
+//        int[] arr = {49, 65, 71, 18, 39, 4, 48, 75};
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
         printArray("arr", arr);
         Arrays.sort(arr);
         printArray("sort arr", arr);

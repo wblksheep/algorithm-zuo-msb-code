@@ -166,6 +166,11 @@ public class Code02_LargestComponentSizebyCommonFactorEdition2 {
 //        arr = generateRandomArray(20, 20);
         printArray("arr", arr);
         runTestCase(arr, false);
+
+        arr = new int[]{9, 8, 3, 2, 1, 2, 3, 5, 7, 8, 9};
+//        arr = generateRandomArray(20, 20);
+        printArray("arr", arr);
+        runTestCase(arr, false);
     }
 
 }

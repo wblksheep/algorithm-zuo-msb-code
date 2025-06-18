@@ -42,11 +42,12 @@ public class Code02_MaxABSBetweenLeftAndRightEdition1 {
         if (arr == null || arr.length < 2) {
             return 0;
         }
+        int n = arr.length;
         int max = arr[0];
-        for (int i = 1; i < arr.length; i++) {
+        for (int i = 1; i < n; i++) {
             max = Math.max(max, arr[i]);
         }
-        return max - Math.min(arr[0], arr[arr.length - 1]);
+        return max - Math.min(arr[0], arr[n - 1]);
     }
 
     public static int[] generateRandomArray(int length) {
