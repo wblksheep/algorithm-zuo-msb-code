@@ -197,7 +197,7 @@ public class Code01_LCATarjanAndTreeChainPartitionEdition3 {
                 siz[c] += siz[s];
                 if (maxSize < siz[s]) {
                     son[c] = s;
-                    maxSize = s;
+                    maxSize = siz[s];
                 }
             }
         }
@@ -314,8 +314,8 @@ public class Code01_LCATarjanAndTreeChainPartitionEdition3 {
         for (int i = 0; i < testTime; i++) {
             int size = (int) (Math.random() * N) + 1;
             int ques = (int) (Math.random() * M) + 1;
-            int[] father = generateFatherArray(size);
-            int[][] queries = generateQueries(ques, size);
+//            int[] father = generateFatherArray(size);
+//            int[][] queries = generateQueries(ques, size);
 //            int[] father = {9, 0, 4, 7, 7, 1, 7, 7, 7, 7};
 //            int[][] queries = {
 //                    {4, 3},
@@ -324,12 +324,12 @@ public class Code01_LCATarjanAndTreeChainPartitionEdition3 {
 //                    {3, 4},
 //                    {1, 2}
 //            };
-//            int[] father = {0, 0, 0, 1, 1, 2, 2, 5, 5, 6};
-//            int[][] queries = {
-//                    {9, 6},
-//                    {6, 1},
-//                    {6, 2}
-//            };
+            int[] father = {0, 0, 0, 1, 1, 2, 2, 5, 5, 6};
+            int[][] queries = {
+                    {9, 6},
+                    {6, 1},
+                    {6, 2}
+            };
 //            int[] ans1 = query1(father, queries);
             int[] ans2 = query2(father, queries);
             int[] ans3 = query3(father, queries);

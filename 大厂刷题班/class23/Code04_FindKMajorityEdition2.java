@@ -97,8 +97,9 @@ public class Code04_FindKMajorityEdition2 {
     }
 
     public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 1, 1, 2, 1};
+//        int[] arr = {1, 2, 3, 1, 1, 2, 1};
 //        int[] arr = {};
+        int[] arr = {5, 4, 3, 2, 1, 2, 2, 2, 3, 3, 4, 5};
         printHalfMajor(arr);
         int K = 4;
         printKMajor(arr, K);
