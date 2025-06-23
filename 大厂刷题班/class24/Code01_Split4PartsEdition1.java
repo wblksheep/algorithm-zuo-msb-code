@@ -52,8 +52,8 @@ public class Code01_Split4PartsEdition1 {
             sum += arr[i];
         }
         int lsum = arr[0];
-        for (int i = 1; i < n - 5; i++) {
-            int checkSum = lsum * 2 + arr[i];
+        for (int s1 = 1; s1 < n - 5; s1++) {
+            int checkSum = lsum * 2 + arr[s1];
             if (map.containsKey(checkSum)) {
                 int s2 = map.get(checkSum);
                 checkSum += lsum + arr[s2];
@@ -64,7 +64,7 @@ public class Code01_Split4PartsEdition1 {
                     }
                 }
             }
-            lsum += arr[i];
+            lsum += arr[s1];
         }
         return false;
     }

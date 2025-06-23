@@ -65,10 +65,10 @@ public class Code05_MinWindowLengthComparator {
 
         for (int i = 0; i < testTimes; i++) {
             // 动态生成s1和s2
-//            String s1 = generateRandomString(i % 2 == 0 ? maxLenSmall : maxLenLarge, charset);
-//            String s2 = generateRandomString(Math.min(s1.length(), randLen(s1.length())), charset);
-            String s1 = "5899467998";
-            String s2 = "87";
+            String s1 = generateRandomString(i % 2 == 0 ? maxLenSmall : maxLenLarge, charset);
+            String s2 = generateRandomString(Math.min(s1.length(), randLen(s1.length())), charset);
+//            String s1 = "5899467998";
+//            String s2 = "87";
 
             // 调用待测方法
             int len1 = Code05_MinWindowLengthEdition1.minLength(s1, s2);

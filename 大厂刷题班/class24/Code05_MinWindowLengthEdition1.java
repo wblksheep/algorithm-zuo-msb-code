@@ -3,38 +3,33 @@ package class24;
 public class Code05_MinWindowLengthEdition1 {
 
     public static int minLength(String str, String tStr) {
-        if (str == null || tStr == null || str.length() < tStr.length()) {
-            return Integer.MAX_VALUE;
-        }
         char[] s = str.toCharArray();
         char[] t = tStr.toCharArray();
-        int n = s.length;
-        int m = t.length;
-        int[] cnt = new int[10];
-        int all = 0;
+        int n = s.length, m = t.length;
+        int[] map = new int[10];
+        int debt = 0;
         for (int i = 0; i < m; i++) {
-            cnt[t[i] - '0']++;
-            all++;
+            map[t[i] - '0']++;
+            debt++;
         }
-        int L = 0;
-        int R = 0;
         int minLen = Integer.MAX_VALUE;
-        while (R < n) {
-            if (--cnt[s[R] - '0'] >= 0) {
-                all--;
+        int L = 0;
+        for (int R = 0; R < n; R++) {
+            if (map[s[R] - '0']-- > 0) {
+                debt--;
             }
-            if (all == 0) {
-                while (cnt[s[L] - '0'] < 0) {
-                    cnt[s[L++] - '0']++;
+            if (debt == 0) {
+                while (map[s[L] - '0'] < 0) {
+                    map[s[L++] - '0']++;
                 }
                 minLen = Math.min(minLen, R - L + 1);
-                cnt[s[L++] - '0']++;
-                all++;
+                map[s[L++] - '0']++;
+                debt++;
             }
-            R++;
         }
         return minLen == Integer.MAX_VALUE ? 0 : minLen;
     }
+
 
     // 测试链接 : https://leetcode.com/problems/minimum-window-substring/
     public static String minWindow(String s, String t) {

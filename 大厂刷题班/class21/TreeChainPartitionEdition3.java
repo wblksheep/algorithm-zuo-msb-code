@@ -5,19 +5,20 @@ import java.util.HashMap;
 public class TreeChainPartitionEdition3 {
 
     public static class TreeChain {
-        public int n;
-        public int[] fa;
-        public int[] val;
-        public int[] siz;
-        public int[] son;
-        public int[] dfn;
-        public int[] dep;
-        public int[] tnw;
-        public int[][] tree;
-        public int tim = 0;
-        public int h;
-        public int[] top;
-        public SegmentTree seg;
+
+        private int n;
+        private int h;
+        private int[] fa;
+        private int[] val;
+        private int[] siz;
+        private int[][] tree;
+        private int[] son;
+        private int[] dep;
+        private int[] dfn;
+        private int[] top;
+        private int[] tnw;
+        private int tim = 0;
+        private SegmentTree seg;
 
         public TreeChain(int[] father, int[] values) {
             initTree(father, values);
@@ -27,36 +28,8 @@ public class TreeChainPartitionEdition3 {
             dfs2(h, h);
 
             seg = new SegmentTree(tnw);
+
             seg.build(1, n, 1);
-        }
-
-        public void dfs2(int c, int t) {
-            dfn[c] = ++tim;
-            tnw[tim] = val[c];
-            top[c] = t;
-            if (son[c] != 0) {
-                dfs2(son[c], t);
-                for (int s : tree[c]) {
-                    if (son[c] != s) {
-                        dfs2(s, s);
-                    }
-                }
-            }
-        }
-
-        public void dfs1(int c, int f) {
-            fa[c] = f;
-            siz[c] = 1;
-            dep[c] = dep[f] + 1;
-            int maxSize = 0;
-            for (int s : tree[c]) {
-                dfs1(s, c);
-                siz[c] += siz[s];
-                if (siz[s] > maxSize) {
-                    maxSize = siz[s];
-                    son[c] = s;
-                }
-            }
         }
 
         public void addSubtree(int head, int v) {
@@ -72,55 +45,26 @@ public class TreeChainPartitionEdition3 {
         public void addChain(int a, int b, int v) {
             a++;
             b++;
-            int big = dep[top[a]] > dep[top[b]] ? a : b;
-            int small = big == a ? b : a;
-            while (top[big] != top[small]) {
-                seg.add(dfn[top[big]], dfn[big], v, 1, n, 1);
-                big = fa[top[big]];
-                int tmp = big;
-                big = dep[top[big]] > dep[top[small]] ? big : small;
-                small = big == tmp ? small : tmp;
+            while (top[a] != top[b]) {
+                if (dep[top[a]] > dep[top[b]]) {
+                    seg.add(dfn[top[a]], dfn[a], v, 1, n, 1);
+                    a = fa[top[a]];
+                } else {
+                    seg.add(dfn[top[b]], dfn[b], v, 1, n, 1);
+                    b = fa[top[b]];
+                }
             }
-            int tmp = big;
-            big = dep[big] > dep[small] ? big : small;
-            small = big == tmp ? small : tmp;
-            seg.add(dfn[small], dfn[big], v, 1, n, 1);
-//            a++;
-//            b++;
-//            while (top[a] != top[b]) {
-//                if (dep[top[a]] > dep[top[b]]) {
-//                    seg.add(dfn[top[a]], dfn[a], v, 1, n, 1);
-//                    a = fa[top[a]];
-//                } else {
-//                    seg.add(dfn[top[b]], dfn[b], v, 1, n, 1);
-//                    b = fa[top[b]];
-//                }
-//            }
-//            if (dep[a] > dep[b]) {
-//                seg.add(dfn[b], dfn[a], v, 1, n, 1);
-//            } else {
-//                seg.add(dfn[a], dfn[b], v, 1, n, 1);
-//            }
+            if (dep[a] > dep[b]) {
+                seg.add(dfn[b], dfn[a], v, 1, n, 1);
+            } else {
+                seg.add(dfn[a], dfn[b], v, 1, n, 1);
+            }
         }
 
         public long queryChain(int a, int b) {
-//            a++;
-//            b++;
-//            long ans = 0;
-//            int big = dep[top[a]] > dep[top[b]] ? a : b;
-//            int small = big == a ? b : a;
-//            while (top[big] != top[small]) {
-//                ans += seg.query(dfn[top[big]], dfn[big], 1, n, 1);
-//                big = fa[top[big]];
-//                int tmp = big;
-//                big = dep[top[big]] > dep[top[small]] ? big : small;
-//                small = big == tmp ? small : tmp;
-//            }
-//            ans += seg.query(dfn[small], dfn[big], 1, n, 1);
-//            return ans;
             a++;
             b++;
-            int ans = 0;
+            long ans = 0;
             while (top[a] != top[b]) {
                 if (dep[top[a]] > dep[top[b]]) {
                     ans += seg.query(dfn[top[a]], dfn[a], 1, n, 1);
@@ -138,7 +82,36 @@ public class TreeChainPartitionEdition3 {
             return ans;
         }
 
-        public void initTree(int[] father, int[] values) {
+        private void dfs1(int c, int f) {
+            fa[c] = f;
+            dep[c] = dep[f] + 1;
+            siz[c] = 1;
+            int maxSize = 0;
+            for (int s : tree[c]) {
+                dfs1(s, c);
+                siz[c] += siz[s];
+                if (siz[s] > maxSize) {
+                    maxSize = siz[s];
+                    son[c] = s;
+                }
+            }
+        }
+
+        private void dfs2(int c, int t) {
+            dfn[c] = ++tim;
+            tnw[tim] = val[c];
+            top[c] = t;
+            if (son[c] != 0) {
+                dfs2(son[c], t);
+                for (int s : tree[c]) {
+                    if (son[c] != s) {
+                        dfs2(s, s);
+                    }
+                }
+            }
+        }
+
+        private void initTree(int[] father, int[] values) {
             n = father.length + 1;
             fa = new int[n];
             val = new int[n];
@@ -147,12 +120,8 @@ public class TreeChainPartitionEdition3 {
             son = new int[n];
             dep = new int[n];
             dfn = new int[n];
-            tnw = new int[n];
             top = new int[n];
-            n--;
-            for (int i = 0; i < n; i++) {
-                val[i + 1] = values[i];
-            }
+            tnw = new int[n--];
             int[] cnts = new int[n];
             for (int i = 0; i < n; i++) {
                 if (i == father[i]) {
@@ -160,6 +129,7 @@ public class TreeChainPartitionEdition3 {
                 } else {
                     cnts[father[i]]++;
                 }
+                val[i + 1] = values[i];
             }
             for (int i = 0; i < n; i++) {
                 tree[i + 1] = new int[cnts[i]];
