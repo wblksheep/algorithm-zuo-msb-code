@@ -1,7 +1,7 @@
 package class23;
 
 import java.util.HashSet;
-
+// 这题回去再看一下左神是如何说的，有点疑惑，左神是说第一次进去的时候就要看问题了吧，但事实上是没有孩子或者程序从孩子出来才看答案有没有。
 public class Code01_LCATarjanAndTreeChainPartitionEdition3 {
 
     // 给定数组tree大小为N，表示一共有N个节点

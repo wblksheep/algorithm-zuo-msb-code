@@ -2,28 +2,30 @@ package class24;
 
 import java.util.Random;
 
+import static class24.ArrayPrinter.printArray;
+
 public class Code06_RemoveDuplicateLettersComparator2 {
 
     public static String removeDuplicateLetters(String str) {
         char[] s = str.toCharArray();
-        int N = s.length;
         char[] stack = new char[26];
-        int[] cnts = new int[26];
         boolean[] isEntered = new boolean[26];
-        for (int i = 0; i < N; i++) {
+        int[] cnts = new int[26];
+        int n = s.length;
+        for (int i = 0; i != n; i++) {
             cnts[s[i] - 'a']++;
         }
+        int R = 0;
         int size = 0;
-        for (int i = 0; i < N; i++) {
-            if (!isEntered[s[i] - 'a']) {
-                while (size - 1 >= 0 && stack[size - 1] > s[i] && cnts[stack[size - 1] - 'a'] > 0) {
+        while (R < n) {
+            if (!isEntered[s[R] - 'a']) {
+                isEntered[s[R] - 'a'] = true;
+                while (size - 1 >= 0 && stack[size - 1] > s[R] && cnts[stack[size - 1] - 'a'] > 0) {
                     isEntered[stack[--size] - 'a'] = false;
                 }
-                stack[size++] = s[i];
-                isEntered[s[i] - 'a'] = true;
-
+                stack[size++] = s[R];
             }
-            cnts[s[i] - 'a']--;
+            cnts[s[R++] - 'a']--;
         }
         return String.valueOf(stack, 0, size);
     }
@@ -129,24 +131,28 @@ public class Code06_RemoveDuplicateLettersComparator2 {
     // 执行对比测试
     public static void main(String[] args) {
         Random rand = new Random();
-        int tests = 3000; // 测试次数
+        int tests = 5; // 测试次数
         int maxLength = 12; // 最大长度
 
         for (int i = 0; i < tests; i++) {
             // 生成测试用例
             String s;
-            if (i < 50) {
-                // 前50个测试用例使用固定边界案例
-                String[] boundaryCases = {"abgfebbedch",
-                        "bfa", "bfaf", "bfafa", "bfafabc", "bfafabfc",
-                        "bfafabfcf", "abb", "abcba", "bcabc",
-                        "cbacdcbc", "leetcode", "bcab"
-                };
-                s = boundaryCases[i % boundaryCases.length];
-            } else {
-                // 随机测试用例
-                s = generateRandomTestCase(rand);
-            }
+//            if (i < 50) {
+//                // 前50个测试用例使用固定边界案例
+//                String[] boundaryCases = {"abgfebbedch",
+//                        "bfa", "bfaf", "bfafa", "bfafabc", "bfafabfc",
+//                        "bfafabfcf", "abb", "abcba", "bcabc",
+//                        "cbacdcbc", "leetcode", "bcab"
+//                };
+//                s = boundaryCases[i % boundaryCases.length];
+//            } else {
+//                // 随机测试用例
+//                s = generateRandomTestCase(rand);
+//            }
+
+//            s = generateRandomTestCase(rand);
+            s = "cegbabcfcefb";
+            System.out.println("arr" + i + ": " + s);
 
             // 调用目标方法
             String result = removeDuplicateLetters(s);

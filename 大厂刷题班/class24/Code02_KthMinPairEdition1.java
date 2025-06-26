@@ -161,12 +161,14 @@ public class Code02_KthMinPairEdition1 {
         int testTimes = 100000;
         System.out.println("test bagin, test times : " + testTimes);
         for (int i = 0; i < testTimes; i++) {
-            int[] arr = getRandomArray(max, len);
+//            int[] arr = getRandomArray(max, len);
+            int[] arr = {-1, -1, -1, 0, 0, 1, 1, 2};
             int[] arr1 = copyArray(arr);
             int[] arr2 = copyArray(arr);
             int[] arr3 = copyArray(arr);
             int N = arr.length * arr.length;
-            int k = (int) (Math.random() * N) + 1;
+//            int k = (int) (Math.random() * N) + 1;
+            int k = 37;
             int[] ans1 = kthMinPair1(arr1, k);
             int[] ans2 = kthMinPair2(arr2, k);
             int[] ans3 = kthMinPair3(arr3, k);
