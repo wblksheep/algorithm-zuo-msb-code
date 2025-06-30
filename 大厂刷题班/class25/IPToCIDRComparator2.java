@@ -2,38 +2,38 @@ package class25;
 
 import java.util.*;
 
-public class IPToCIDRComparator {
+public class IPToCIDRComparator2 {
 
-    // 目标方法（待验证）
     public static List<String> ipToCIDR(String ip, int n) {
-        int cur = status(ip);
+
+        int num = status(ip);
         int maxPower = 0;
-        int solved = 0;
         int power = 0;
+        int solved = 0;
         List<String> ans = new ArrayList<>();
         while (n > 0) {
-            maxPower = mostRightPower(cur);
-            solved = 1;
+            maxPower = mostRightPower(num);
             power = 0;
+            solved = 1;
             while ((solved << 1) <= n && power + 1 <= maxPower) {
                 solved <<= 1;
                 power++;
             }
-            ans.add(content(cur, power));
+            ans.add(content(num, power));
             n -= solved;
-            cur += solved;
+            num += solved;
         }
         return ans;
     }
 
-    public static int status(String ip) {
-        int ans = 0;
-        int move = 24;
-        for (String str : ip.split("\\.")) {
-            ans |= Integer.valueOf(str) << move;
-            move -= 8;
+    public static String content(int status, int power) {
+        StringBuilder builder = new StringBuilder();
+        for (int move = 24; move >= 0; move -= 8) {
+            builder.append(((status >>> move) & 255) + ".");
         }
-        return ans;
+        builder.setCharAt(builder.length() - 1, '/');
+        builder.append(32 - power);
+        return builder.toString();
     }
 
     public static HashMap<Integer, Integer> map = new HashMap<>();
@@ -48,14 +48,14 @@ public class IPToCIDRComparator {
         return map.get(num & (-num));
     }
 
-    public static String content(int status, int power) {
-        StringBuilder builder = new StringBuilder();
-        for (int move = 24; move >= 0; move -= 8) {
-            builder.append(((status & (255 << move)) >>> move) + ".");
+    public static int status(String ip) {
+        int num = 0;
+        int move = 24;
+        for (String s : ip.split("\\.")) {
+            num |= Integer.parseInt(s) << move;
+            move -= 8;
         }
-        builder.setCharAt(builder.length() - 1, '/');
-        builder.append(32 - power);
-        return builder.toString();
+        return num;
     }
 
     // 辅助函数：IP字符串转32位整数（长整型防止溢出）

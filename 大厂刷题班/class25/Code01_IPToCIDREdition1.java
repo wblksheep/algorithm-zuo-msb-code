@@ -19,7 +19,7 @@ public class Code01_IPToCIDREdition1 {
             int pow = 1;
             int base = 0;
 
-            while ((pow << 1) < n && (base + 1) <= rightOne) {
+            while ((pow << 1) <= n && (base + 1) <= rightOne) {
                 base++;
                 pow <<= 1;
             }
