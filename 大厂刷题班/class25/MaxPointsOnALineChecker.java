@@ -131,20 +131,20 @@ public class MaxPointsOnALineChecker {
         System.out.println("测试开始");
 
         for (int i = 0; i < testTimes; i++) {
-//            int[][] points = generateRandomPoints(maxSize, maxValue);
+            int[][] points = generateRandomPoints(maxSize, maxValue);
 //            int[][] points = {{3, 6}, {6, -2}, {-7, 3}, {0, -9}, {0, 2}, {-5, -5}, {2, 6}, {-10, 2}};
-            int[][] points = {{3, -6},
-                    {4, 1},
-                    {4, 1},
-                    {4, -3},
-                    {1, 4},
-                    {-6, 5},
-                    {-5, -2},
-                    {-6, -4},
-                    {1, 6},
-                    {1, 1},
-                    {5, -4},
-                    {3, -3}};
+//            int[][] points = {{3, -6},
+//                    {4, 1},
+//                    {4, 1},
+//                    {4, -3},
+//                    {1, 4},
+//                    {-6, 5},
+//                    {-5, -2},
+//                    {-6, -4},
+//                    {1, 6},
+//                    {1, 1},
+//                    {5, -4},
+//                    {3, -3}};
             int result1 = maxPoints(points);
             int result2 = bruteForceMaxPoints(points);
 
