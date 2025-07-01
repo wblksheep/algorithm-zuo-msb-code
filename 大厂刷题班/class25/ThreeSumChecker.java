@@ -10,7 +10,7 @@ public class ThreeSumChecker {
         int N = nums.length;
         List<List<Integer>> ans = new ArrayList<>();
         for (int i = N - 1; i > 1; i--) {
-            if (i == N - 1 || nums[i] != nums[i + 1]) {
+            if (i == N - 1 || nums[i] != nums[i + 1]) {//新理解，相同数字中最右的数，比如4 4 4 5 5 5 6中第三个4和第三个5
                 List<List<Integer>> nexts = twoSum(nums, i - 1, -nums[i]);
                 for (List<Integer> cur : nexts) {
                     cur.add(nums[i]);
